@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  /* Primary — Navy blue, from the GII logo mark (trust, institutional identity) */
+  --color-primary-50: #eef3fb;
+  --color-primary-100: #d9e6f5;
+  --color-primary-200: #b3cceb;
+  --color-primary-300: #82abdb;
+  --color-primary-400: #4f7dc0;
+  --color-primary-500: #2f5da3;
+  --color-primary-600: #1f4680;
+  --color-primary-700: #163564;
+  --color-primary-800: #14294d;
+  --color-primary-900: #0f2340;
+  --color-primary-950: #091629;
+
+  /* Secondary — Crimson red, from the GII logo ring (energy, distinction) */
+  --color-secondary-50: #fdf2f3;
+  --color-secondary-100: #fbdcdc;
+  --color-secondary-200: #f5b8b8;
+  --color-secondary-300: #ec8b8b;
+  --color-secondary-400: #e15f5f;
+  --color-secondary-500: #d13744;
+  --color-secondary-600: #c8102e;
+  --color-secondary-700: #8f2323;
+  --color-secondary-800: #6b1a1a;
+  --color-secondary-900: #4a1212;
+  --color-secondary-950: #2e0b0b;
+
+  /* Accent — Gold, from the GII logo star (opportunity, energy, entrepreneurship) */
+  --color-accent-50: #fffbeb;
+  --color-accent-100: #fef3c7;
+  --color-accent-200: #fde68a;
+  --color-accent-300: #fcd34d;
+  --color-accent-400: #f2c94c;
+  --color-accent-500: #f2b705;
+  --color-accent-600: #b8860b;
+  --color-accent-700: #92660a;
+  --color-accent-800: #78530f;
+  --color-accent-900: #5c3f0c;
+
+  /* Neutrals */
+  --color-neutral-white: #ffffff;
+  --color-neutral-offwhite: #f8f7f4;
+  --color-neutral-light: #f1f2f4;
+  --color-neutral-gray: #6b7280;
+  --color-neutral-charcoal: #1c1f26;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-neutral-white text-neutral-charcoal antialiased;
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold text-neutral-charcoal;
+    font-family: var(--font-heading);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent-500);
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-600 via-primary-700 to-secondary-700 bg-clip-text text-transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

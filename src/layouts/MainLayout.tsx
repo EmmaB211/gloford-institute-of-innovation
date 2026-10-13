@@ -1,0 +1,19 @@
+import { Outlet } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import BackToTop from "../components/BackToTop";
+import ScrollToTop from "../components/ScrollToTop";
+
+export default function MainLayout() {
+  return (
+    <div className="flex min-h-screen flex-col">
+      <ScrollToTop />
+      <Navbar />
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <Footer />
+      <BackToTop />
+    </div>
+  );
+}
