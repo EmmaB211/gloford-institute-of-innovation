@@ -33,7 +33,6 @@ export default function Home() {
         title="GLOFORD Institute of Innovation | Finance, Agribusiness & ICT"
         description="GLOFORD Institute of Innovation empowers businesses, entrepreneurs, farmers and communities through financing, agribusiness, agricultural value chains, ICT and practical skills development."
       />
-      <p> GLOFORD Institute of Innovation is a social enterprise and a business arm of GLOFORD Uganda that works with entrepreneurs, businesses, farmers and communities to create opportunities through financing, agribusiness, agricultural value chains, ICT and practical skills development.</p>
       <Hero />
 
       {/* Trust / Quick Impact */}
