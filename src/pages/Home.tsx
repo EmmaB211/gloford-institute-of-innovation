@@ -49,13 +49,19 @@ export default function Home() {
             title="Our Business Model"
             description="We give solutions to problems being faced in the real world — including chronic poverty, limited access to appropriate technology, poor business development services for SMEs, digital illiteracy, limited entrepreneurial acumen, and financial divides among youth and women SMEs."
           />
-          <div className="mt-12 grid gap-6 sm:grid-cols-3">
-            {[
-              { icon: Wallet, text: "Low Interest and Revolving Loans." },
-              { icon: Cpu, text: "ICT and Innovation." },
-              { icon: Briefcase, text: "Business Consultancy." },
-              { icon: seedling, text: "Agro-processing and value addition." }
-            ].map(({ icon: Icon, text }, i) => (
+         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+  {[
+    { icon: Wallet, text: "Low Interest and Revolving Loans." },
+    { icon: Cpu, text: "ICT and Innovation." },
+    { icon: Briefcase, text: "Business Consultancy." },
+    { icon: Sprout, text: "Agro-processing and Value Addition." }
+  ].map(({ icon: Icon, text }, i) => (
+    <div key={i}>
+      <Icon className="h-8 w-8" />
+      <p>{text}</p>
+    </div>
+  ))}
+</div>
               <AnimatedSection
                 key={text}
                 delay={i * 0.1}
