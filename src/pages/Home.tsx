@@ -116,7 +116,7 @@ export default function Home() {
       <CTASection
         title="Your Business Has Potential. Let's Help You Unlock It."
         description="GII supports entrepreneurs and businesses by providing access to appropriate financing and business development opportunities."
-        ctaLabel="Apply for Financing"
+        ctaLabel="Apply for a Loan"
         ctaPath="/services#financing"
       />
 
