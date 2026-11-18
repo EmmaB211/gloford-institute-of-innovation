@@ -28,7 +28,11 @@ export default function Hero() {
             Empowering Businesses. Transforming Agriculture. Driving Innovation.
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
-            GLOFORD Institute of Innovation is a social enterprise and a business arm of GLOFORD Uganda that works with entrepreneurs, businesses, farmers and communities to create opportunities through financing, agribusiness, agricultural value chains, ICT and practical skills development.
+            GLOFORD Institute of Innovation is a social 
+            enterprise and a business arm of GLOFORD Uganda 
+            that works with entrepreneurs, businesses, farmers 
+            and communities to create opportunities through financing, 
+            agribusiness, agricultural value chains, ICT and practical skills development.
 
           </p>
           <div className="mt-9 flex flex-wrap gap-4">
