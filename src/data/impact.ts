@@ -11,7 +11,6 @@ export const impactStats: ImpactStat[] = [
   { id: "businesses", label: "Businesses Supported", value: 1500, suffix: "+" },
   { id: "farmers", label: "Farmers Reached", value: 3290, suffix: " +" },
   { id: "ict-learners", label: "ICT Learners Trained", value: 500, suffix: "+" },
-  { id: "communities", label: "Communities Engaged", value: 0, suffix: "+" },
 ];
 
 export interface ImpactStory {
