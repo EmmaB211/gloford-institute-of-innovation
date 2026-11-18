@@ -51,9 +51,10 @@ export default function Home() {
           />
           <div className="mt-12 grid gap-6 sm:grid-cols-3">
             {[
-              { icon: Wallet, text: "Financial divides limiting youth and women-led SMEs from accessing capital." },
-              { icon: Cpu, text: "Limited access and application of appropriate technology for development." },
-              { icon: Briefcase, text: "Poor business development services and limited entrepreneurial acumen among SMEs." },
+              { icon: Wallet, text: "Low Interest and Revolving Loans." },
+              { icon: Cpu, text: "ICT and Innovation." },
+              { icon: Briefcase, text: "Business Consultancy." },
+              { icon: seedling, text: "Agro-processing and value addition." }
             ].map(({ icon: Icon, text }, i) => (
               <AnimatedSection
                 key={text}
