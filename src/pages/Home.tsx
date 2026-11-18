@@ -47,8 +47,8 @@ export default function Home() {
         <div className="container-page">
           <SectionHeader
             eyebrow="The Challenge"
-            title="Problems GII Is Confronting"
-            description="GII was established to give solutions to problems being faced in the real world — including chronic poverty, limited access to appropriate technology, poor business development services for SMEs, digital illiteracy, limited entrepreneurial acumen, and financial divides among youth and women SMEs."
+            title="Our Business Model"
+            description="We give solutions to problems being faced in the real world — including chronic poverty, limited access to appropriate technology, poor business development services for SMEs, digital illiteracy, limited entrepreneurial acumen, and financial divides among youth and women SMEs."
           />
           <div className="mt-12 grid gap-6 sm:grid-cols-3">
             {[
