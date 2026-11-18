@@ -8,10 +8,9 @@ export interface ImpactStat {
 // Placeholder figures — replace with verified statistics once supplied. Values set to 0
 // intentionally so the UI clearly shows editable placeholders ("+XX") rather than invented data.
 export const impactStats: ImpactStat[] = [
-  { id: "businesses", label: "Businesses Supported", value: 0, suffix: "+" },
-  { id: "farmers", label: "Farmers Reached", value: 0, suffix: "+" },
-  { id: "entrepreneurs", label: "Entrepreneurs Empowered", value: 0, suffix: "+" },
-  { id: "ict-learners", label: "ICT Learners Trained", value: 0, suffix: "+" },
+  { id: "businesses", label: "Businesses Supported", value: 1500, suffix: "+" },
+  { id: "farmers", label: "Farmers Reached", value: 3290, suffix: " +" },
+  { id: "ict-learners", label: "ICT Learners Trained", value: 500, suffix: "+" },
   { id: "communities", label: "Communities Engaged", value: 0, suffix: "+" },
 ];
 
