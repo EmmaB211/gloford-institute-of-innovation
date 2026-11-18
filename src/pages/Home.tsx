@@ -46,7 +46,6 @@ export default function Home() {
       <section className="py-20 sm:py-24">
         <div className="container-page">
           <SectionHeader
-            eyebrow="The Challenge"
             title="Our Business Model"
             description="We give solutions to problems being faced in the real world — including chronic poverty, limited access to appropriate technology, poor business development services for SMEs, digital illiteracy, limited entrepreneurial acumen, and financial divides among youth and women SMEs."
           />
