@@ -7,15 +7,21 @@ export interface TeamMember {
   linkedin?: string;
 }
 
-// Real leadership confirmed from official GII materials; remaining roles are placeholders
-// until further profiles are supplied.
+// Leadership profiles currently available for publication.
 export const team: TeamMember[] = [
   {
     id: "morris-chris-ongom",
     name: "Dr. Morris Chris Ongom",
-    position: "Chief Visionary Officer, GLOFORD Institute of Innovation",
-    bio: "Leads GII's mission to drive transformative innovations across Uganda and Africa through financial inclusion, agribusiness, agro-industrialization and ICT4D for wealth creation.",
+    position: "Founder & Chief Visionary Officer",
+    bio: "Dr. Ongom anchors GII's strategic direction and the “Thinking Outside The Box” philosophy — architecting the Institute's pivot toward an agro-industrial, green-finance, and AI-driven enterprise engine across Uganda and East Africa.",
     photo: "/images/team/morris-chris-ongom.svg",
+  },
+  {
+    id: "susan-ayer-ongom",
+    name: "Mrs. Susan Ayer Ongom",
+    position: "Co-Founder & Chief Operations Officer",
+    bio: "Mrs. Ongom drives day-to-day operations, field execution, and program delivery — ensuring that GII's agro-industrial, hospitality, and enterprise ventures translate strategy into measurable results across Lira and beyond.",
+    photo: "/images/team/susan-ayer-ongom.svg",
   },
   {
     id: "member-2",

@@ -5,12 +5,11 @@ export interface ImpactStat {
   suffix: string;
 }
 
-// Placeholder figures — replace with verified statistics once supplied. Values set to 0
-// intentionally so the UI clearly shows editable placeholders ("+XX") rather than invented data.
+// Business scale indicators currently displayed on the homepage.
 export const impactStats: ImpactStat[] = [
-  { id: "businesses", label: "Businesses Supported", value: 1500, suffix: "+" },
-  { id: "farmers", label: "Farmers Reached", value: 3290, suffix: " +" },
-  { id: "ict-learners", label: "ICT Learners Trained", value: 500, suffix: "+" },
+  { id: "farmers", label: "Farmers in the Business Network", value: 3000, suffix: "+" },
+  { id: "capital", label: "Capital Mobilized", value: 1, suffix: "M+" },
+  { id: "survival", label: "Venture Survival Rate", value: 91, suffix: "%" },
 ];
 
 export interface ImpactStory {

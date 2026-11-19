@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Wallet, Cpu, Briefcase } from "lucide-react";
+import { ArrowRight, Wallet, Cpu, Briefcase, Sprout } from "lucide-react";
 import Seo from "../lib/seo";
 import Hero from "../components/Hero";
 import SectionHeader from "../components/SectionHeader";
@@ -8,37 +8,63 @@ import ImpactStats from "../components/ImpactStats";
 import ServiceCard from "../components/ServiceCard";
 import ProgramCard from "../components/ProgramCard";
 import ArticleCard from "../components/ArticleCard";
-import TestimonialCard from "../components/TestimonialCard";
 import CTASection from "../components/CTASection";
-import { impactStats, impactStories } from "../data/impact";
+import StrategicSections from "../components/StrategicSections";
 import { services } from "../data/services";
 import { programs } from "../data/programs";
 import { articles } from "../data/news";
-import { testimonials } from "../data/testimonials";
+import { useSiteContent } from "../content/SiteContentContext";
+import { strategicPortfolios } from "../data/strategic";
 
-const journeySteps = [
-  "Finance",
-  "Business Growth",
-  "Agribusiness",
-  "Agricultural Value Addition",
-  "Technology",
-  "Skills Development",
-  "Opportunity",
+const businessOutcomes = [
+  {
+    title: "Access to Growth Capital",
+    description: "Explore financing pathways suited to your business stage, investment plan and operating model.",
+  },
+  {
+    title: "Higher-Value Products",
+    description: "Strengthen production, processing, storage and packaging to retain more value in local supply chains.",
+  },
+  {
+    title: "Reliable Market Access",
+    description: "Build buyer relationships, improve supply readiness and connect to regional trade opportunities.",
+  },
 ];
 
 export default function Home() {
+  const content = useSiteContent();
+  const editableServices = services.map((service) => {
+    const override = content.services.find((item) => item.id === service.id);
+    return {
+      ...service,
+      title: override?.title ?? service.title,
+      description: override?.description ?? service.description,
+    };
+  });
+  const editablePrograms = programs.map((program) => {
+    const override = content.programs.find((item) => item.id === program.id);
+    return {
+      ...program,
+      title: override?.title ?? program.title,
+      description: override?.description ?? program.description,
+    };
+  });
+
   return (
     <>
       <Seo
-        title="GLOFORD Institute of Innovation | Finance, Agribusiness & ICT"
-        description="GLOFORD Institute of Innovation empowers businesses, entrepreneurs, farmers and communities through financing, agribusiness, agricultural value chains, ICT and practical skills development."
+        title={content.settings.seoTitle}
+        description={content.settings.seoDescription}
       />
       <Hero />
 
       {/* Trust / Quick Impact */}
       <section className="bg-neutral-charcoal py-14">
         <div className="container-page">
-          <ImpactStats stats={impactStats} />
+          <ImpactStats stats={content.impactStats} />
+          <p className="mt-4 text-center text-xs text-white/60">
+            Impact figures are reproduced from the reference site and have not been independently verified.
+          </p>
         </div>
       </section>
 
@@ -46,54 +72,25 @@ export default function Home() {
       <section className="py-20 sm:py-24">
         <div className="container-page">
           <SectionHeader
-            title="Our Business Model"
-            description="We give solutions to problems being faced in the real world — including chronic poverty, limited access to appropriate technology, poor business development services for SMEs, digital illiteracy, limited entrepreneurial acumen, and financial divides among youth and women SMEs."
+            title={content.home.pillarsTitle}
+            description={content.home.pillarsDescription}
           />
-         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            { icon: Wallet, text: "Low Interest and Revolving Loans." },
-            { icon: Cpu, text: "ICT and Innovation." },
-            { icon: Briefcase, text: "Business Consultancy." },
-            { icon: Sprout, text: "Agro-processing and Value Addition." }
-           ].map(({ icon: Icon, text }, i) => (
-           <div key={i}>
-            <Icon className="h-8 w-8" />
-           <p>{text}</p>
-           </div>
-            ))}
-           </div>
-              <AnimatedSection
-                key={text}
-                delay={i * 0.1}
-                className="rounded-2xl border border-neutral-light p-6 text-center"
-              >
-                <Icon className="mx-auto h-8 w-8 text-primary-700" aria-hidden="true" />
-                <p className="mt-4 text-sm text-neutral-gray">{text}</p>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Our Story */}
-      <section className="bg-neutral-offwhite py-20 sm:py-24">
-        <div className="container-page">
-          <SectionHeader
-            eyebrow="Our Story"
-            title="Turning Ideas Into Opportunities"
-            description="GLOFORD Institute of Innovation exists to help bridge these gaps — connecting finance, business growth, agribusiness, agricultural value addition, technology and skills development into one continuous path to opportunity."
-          />
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
-            {journeySteps.map((step, i) => (
-              <AnimatedSection key={step} delay={i * 0.05} className="flex items-center gap-3">
-                <span className="rounded-full border border-primary-200 bg-white px-5 py-2.5 text-sm font-semibold text-primary-800 shadow-sm">
-                  {step}
-                </span>
-                {i < journeySteps.length - 1 && (
-                  <ArrowRight className="h-4 w-4 shrink-0 text-primary-400" aria-hidden="true" />
-                )}
-              </AnimatedSection>
-            ))}
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            {strategicPortfolios.map((portfolio, i) => {
+              const icons = [Sprout, Wallet, Cpu, Briefcase, Briefcase];
+              const Icon = icons[i] ?? Briefcase;
+              return (
+                <AnimatedSection
+                  key={portfolio.id}
+                  delay={i * 0.1}
+                  className="rounded-2xl border border-neutral-light p-6 text-center"
+                >
+                  <Icon className="mx-auto h-8 w-8 text-primary-700" aria-hidden="true" />
+                  <p className="mt-4 text-sm font-semibold text-neutral-charcoal">{portfolio.title}</p>
+                  <p className="mt-2 text-xs leading-relaxed text-neutral-gray">{portfolio.description}</p>
+                </AnimatedSection>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -102,53 +99,44 @@ export default function Home() {
       <section className="py-20 sm:py-24">
         <div className="container-page">
           <SectionHeader
-            title="What We Do"
-            description="Practical solutions designed to unlock opportunity and create sustainable growth."
+            title={content.home.programsTitle}
+            description={content.home.programsDescription}
           />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((service, i) => (
+            {editableServices.slice(0, 5).map((service, i) => (
               <ServiceCard key={service.id} service={service} index={i} />
             ))}
           </div>
         </div>
       </section>
 
+      <StrategicSections />
+
       <CTASection
-        title="Your Business Has Potential. Let's Help You Unlock It."
-        description="GII supports entrepreneurs and businesses by providing access to appropriate financing and business development opportunities."
-        ctaLabel="Apply for a Loan"
-        ctaPath="/services#financing"
+        title="Looking for business financing?"
+        description="Review GLOFORD's loan products, eligibility requirements and application checklist."
+        ctaLabel="Explore Loan Options"
+        ctaPath="/services#loan-products"
       />
 
-      {/* Impact Stories */}
+      {/* Business outcomes */}
       <section className="py-20 sm:py-24">
         <div className="container-page">
           <SectionHeader
-            eyebrow="Impact"
-            title="Impact That Goes Beyond Numbers"
-            description="Placeholder narratives illustrating the kind of change our work aims to create."
+            eyebrow="Built for Business"
+            title="Solutions for the next stage of growth"
+            description="Whether you are improving operations, preparing to scale or looking for new markets, our team helps you identify practical next steps."
           />
           <div className="mt-12 grid gap-6 sm:grid-cols-3">
-            {impactStories.map((story, i) => (
+            {businessOutcomes.map((outcome, i) => (
               <AnimatedSection
-                key={story.id}
+                key={outcome.title}
                 delay={i * 0.1}
                 className="rounded-2xl border border-neutral-light bg-white p-6 shadow-sm"
               >
-                <span className="text-xs font-semibold uppercase tracking-wider text-accent-600">
-                  {story.category}
-                </span>
-                <div className="mt-4 space-y-3 text-sm">
-                  <p><span className="font-semibold text-neutral-charcoal">Before: </span><span className="text-neutral-gray">{story.challenge}</span></p>
-                  <p><span className="font-semibold text-neutral-charcoal">Support: </span><span className="text-neutral-gray">{story.intervention}</span></p>
-                  <p><span className="font-semibold text-neutral-charcoal">After: </span><span className="text-neutral-gray">{story.change}</span></p>
-                </div>
+                <h3 className="text-lg font-semibold text-neutral-charcoal">{outcome.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-neutral-gray">{outcome.description}</p>
               </AnimatedSection>
-            ))}
-          </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
-            {testimonials.map((t, i) => (
-              <TestimonialCard key={t.id} testimonial={t} index={i} />
             ))}
           </div>
         </div>
@@ -157,9 +145,9 @@ export default function Home() {
       {/* Programs teaser */}
       <section className="bg-neutral-offwhite py-20 sm:py-24">
         <div className="container-page">
-          <SectionHeader title="Our Programs" description="Explore the initiatives driving our mission forward." />
+          <SectionHeader title="Business Solutions" description="Explore services and programs that support commercial growth." />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {programs.slice(0, 3).map((program, i) => (
+            {editablePrograms.slice(0, 3).map((program, i) => (
               <ProgramCard key={program.id} program={program} index={i} />
             ))}
           </div>

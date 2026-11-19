@@ -15,14 +15,14 @@ const contactDetails = [
     value:
       "The Leadership House, Plot 106 Police Road Junior Quarters Ward, Lira City West Division, P.O Box 331062",
   },
-  { icon: Clock, label: "Working Hours", value: "Monday – Friday, 8:00 AM – 5:00 PM (Placeholder)" },
+  { icon: Clock, label: "Working Hours", value: "Monday – Friday, 8:00 AM – 5:00 PM" },
 ];
 
 const partnerTypes = [
   { icon: Landmark, label: "Financial Institutions" },
-  { icon: Building2, label: "Businesses & NGOs" },
-  { icon: Users2, label: "Farmers' & Community Organizations" },
-  { icon: Rocket, label: "Technology Companies & Investors" },
+  { icon: Building2, label: "SMEs & Institutional Buyers" },
+  { icon: Users2, label: "Producer Cooperatives & Suppliers" },
+  { icon: Rocket, label: "Technology Providers & Investors" },
 ];
 
 export default function Contact() {
@@ -30,14 +30,14 @@ export default function Contact() {
     <>
       <Seo
         title="Contact Us"
-        description="Get in touch with GLOFORD Institute of Innovation. Reach our team for business financing, agribusiness, ICT training and partnership inquiries."
+        description="Talk to GLOFORD Institute of Innovation about business financing, agribusiness growth, market access, technology and investment opportunities."
       />
 
       <section className="bg-gradient-to-br from-primary-900 to-secondary-900 py-20 text-white">
         <div className="container-page text-center">
           <h1 className="mx-auto max-w-3xl text-4xl text-white sm:text-5xl">Contact Us</h1>
           <p className="mx-auto mt-5 max-w-2xl text-white/80">
-            We would love to hear from you. Reach out with your questions or inquiries.
+            Tell us what your business is working toward. Our team can help identify the right next conversation.
           </p>
         </div>
       </section>
@@ -45,7 +45,7 @@ export default function Contact() {
       <section className="py-20 sm:py-24">
         <div className="container-page grid gap-12 lg:grid-cols-2">
           <AnimatedSection>
-            <SectionHeader align="left" title="Get In Touch" />
+            <SectionHeader align="left" title="Talk to a Business Solutions Adviser" />
             <div className="mt-8 space-y-5">
               {contactDetails.map(({ icon: Icon, label, value }) => (
                 <div key={label} className="flex items-start gap-3">
@@ -73,9 +73,9 @@ export default function Contact() {
       <section className="bg-neutral-offwhite py-20 sm:py-24">
         <div className="container-page">
           <SectionHeader
-            eyebrow="Partnerships"
-            title="Let's Build Opportunities Together"
-            description="We invite financial institutions, businesses, NGOs, government institutions, development organizations, technology companies, farmers' organizations, training institutions, investors and community organizations to partner with us."
+            eyebrow="Commercial Partnerships"
+            title="Build stronger business connections"
+            description="We work with finance providers, investors, buyers, producer organizations and technology and logistics companies to strengthen businesses and value chains."
           />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {partnerTypes.map(({ icon: Icon, label }, i) => (
@@ -93,8 +93,8 @@ export default function Contact() {
       </section>
 
       <CTASection
-        title="Interested in Partnering With Us?"
-        ctaLabel="Partner With Us"
+        title="Ready to discuss a business opportunity?"
+        ctaLabel="Start a Conversation"
         ctaPath="#field-name"
       />
     </>

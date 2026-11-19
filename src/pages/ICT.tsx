@@ -22,15 +22,15 @@ export default function ICT() {
   return (
     <>
       <Seo
-        title="ICT & Innovation"
-        description="GLOFORD Institute of Innovation delivers ICT solutions, digital innovation initiatives and practical ICT boot camps and training programs."
+        title="Business Technology & ICT"
+        description="Practical technology adoption, digital operations and workforce training for SMEs and agribusinesses."
       />
 
       <section className="bg-gradient-to-br from-secondary-900 to-primary-900 py-20 text-white">
         <div className="container-page text-center">
-          <h1 className="mx-auto max-w-3xl text-4xl text-white sm:text-5xl">Technology That Creates Opportunity</h1>
+          <h1 className="mx-auto max-w-3xl text-4xl text-white sm:text-5xl">Technology That Improves Business Performance</h1>
           <p className="mx-auto mt-5 max-w-2xl text-white/80">
-            ICT solutions, digital innovation and practical skills training designed to create opportunity.
+            Practical digital tools and capabilities to help teams manage operations, reach customers and make better-informed decisions.
           </p>
         </div>
       </section>
@@ -38,12 +38,12 @@ export default function ICT() {
       <section className="py-20 sm:py-24">
         <div className="container-page grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            { icon: Cpu, title: "ICT Solutions", desc: "Placeholder — technology-focused solutions supporting organizations and communities." },
-            { icon: Sparkles, title: "Digital Innovation", desc: "Placeholder — initiatives exploring new digital tools and approaches." },
-            { icon: Code2, title: "ICT Documentation", desc: "Placeholder — structured documentation supporting technology projects." },
-            { icon: Laptop, title: "Digital Transformation", desc: "Placeholder — helping organizations adopt digital ways of working." },
-            { icon: Network, title: "Technology Projects", desc: "Placeholder — applied technology projects across our focus areas." },
-            { icon: ShieldCheck, title: "Innovation Initiatives", desc: "Placeholder — supporting innovation across business and agriculture." },
+            { icon: Cpu, title: "Business Systems", desc: "Assess and adopt digital systems for records, inventory, customer management and reporting." },
+            { icon: Sparkles, title: "AI & Data Tools", desc: "Explore practical AI and analytics applications for planning, forecasting and everyday workflows." },
+            { icon: Code2, title: "Digital Product Development", desc: "Scope and develop digital products around real operating needs and customer requirements." },
+            { icon: Laptop, title: "Digital Transformation", desc: "Plan practical improvements to processes, tools and team capabilities as your business grows." },
+            { icon: Network, title: "Connectivity & Integration", desc: "Improve how teams, business systems and value-chain partners share information." },
+            { icon: ShieldCheck, title: "Digital Readiness", desc: "Build the skills and basic security practices your team needs to work confidently online." },
           ].map((item, i) => (
             <AnimatedSection
               key={item.title}
@@ -62,9 +62,9 @@ export default function ICT() {
       <section id="training" className="bg-neutral-offwhite py-20 sm:py-24">
         <div className="container-page">
           <SectionHeader
-            eyebrow="ICT Boot Camps"
-            title="Learn. Build. Innovate."
-            description="GII provides practical ICT training and boot camps designed to equip participants with relevant digital skills. Categories below are editable and not confirmed unless stated otherwise."
+            eyebrow="Workforce Development"
+            title="Build job-ready digital capability"
+            description="Explore practical training categories for teams and professionals building the digital skills required in modern business."
           />
 
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -95,9 +95,9 @@ export default function ICT() {
       </section>
 
       <CTASection
-        title="Ready to Build Your Digital Skills?"
-        description="Join our ICT training and boot camp programs."
-        ctaLabel="View Training Programs"
+        title="Plan the right technology investment for your business"
+        description="Talk with our team about digital tools, systems and training for your operations."
+        ctaLabel="Discuss Business Technology"
         ctaPath="/ict#training"
       />
     </>

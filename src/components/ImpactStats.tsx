@@ -15,7 +15,7 @@ function StatItem({ stat }: { stat: ImpactStat }) {
 
 export default function ImpactStats({ stats }: { stats: ImpactStat[] }) {
   return (
-    <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
+    <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
       {stats.map((stat) => (
         <StatItem key={stat.id} stat={stat} />
       ))}

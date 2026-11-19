@@ -1,32 +1,36 @@
-# React + TypeScript + Vite
+# GLOFORD Institute of Innovation
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## Run locally
 
-Currently, two official plugins are available:
+Install dependencies and run the Vite development server:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```sh
+npm ci
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Content management system setup
+
+The admin console is available at `/admin`. It uses Supabase Auth for admin sign-in and Supabase Postgres with row-level security for published content. Until Supabase is configured, the public website uses its bundled default content and the admin console displays setup instructions.
+
+1. Create a Supabase project.
+2. Open the project's SQL Editor and run [`supabase/schema.sql`](./supabase/schema.sql).
+3. In Supabase Authentication, create the initial admin user. Public sign-up is not exposed by this app.
+4. Promote that account in the SQL Editor, replacing the email:
+
+   ```sql
+   insert into public.site_admins (user_id)
+   select id from auth.users where email = 'admin@example.org';
+   ```
+
+5. Copy `.env.example` to `.env.local` and set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` from the Supabase project's API settings. These are public client values; never put a `service_role` key in the website.
+6. Restart the dev server, open `/admin`, and sign in. Website settings, home/about copy, impact stats, service/program descriptions, and hero slides can be edited and published there.
+
+For GitHub Pages deployment, add repository Actions variables named `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. The workflow injects them at build time. Keep admin account provisioning in Supabase; client-side CMS access is restricted by the database policies in the schema.
+
+## Checks
+
+```sh
+npm run lint
+npm run build
+```

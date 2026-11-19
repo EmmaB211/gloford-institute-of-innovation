@@ -4,12 +4,12 @@ export interface Program {
   description: string;
   focusArea:
     | "Business Development"
-    | "Financial Inclusion"
+    | "Business Finance"
     | "Agribusiness"
     | "Agricultural Value Chains"
     | "ICT & Digital Skills"
     | "Innovation"
-    | "Entrepreneurship";
+    | "Enterprise Development";
   status: "Ongoing" | "Upcoming" | "Planned";
   image: string;
 }
@@ -17,47 +17,47 @@ export interface Program {
 // Program data sourced from official GII materials.
 export const programs: Program[] = [
   {
-    id: "commercial-farming-rural-development",
-    title: "Commercial Farming for Rural Development",
+    id: "agro-industrialization",
+    title: "Agro-industrialization",
     description:
-      "A strategic GII project promoting commercial, market-oriented farming to support rural development.",
+      "Value-chain optimization, clean agro-processing plants and rural factory ecosystems across Uganda and East Africa.",
     focusArea: "Agribusiness",
     status: "Ongoing",
     image: "/images/programs/commercial-farming.svg",
   },
   {
-    id: "agrivision-northern-uganda",
-    title: "Agrivision Northern Uganda",
+    id: "micro-green-financing",
+    title: "Micro and Green Financing",
     description:
-      "An initiative advancing sustainable agriculture and agribusiness opportunity across Northern Uganda.",
+      "Wealth From Waste and GLOFORD Green Innovation Finance (GIF) — micro-equity matching, SME and farmer micro-financing, and revolving loan pools for eco-enterprises.",
+    focusArea: "Business Finance",
+    status: "Ongoing",
+    image: "/images/programs/wealth-from-waste.svg",
+  },
+  {
+    id: "ai-ic4d",
+    title: "AI Business Development & IC4D",
+    description:
+      "Generative AI tools, predictive crop yield models, digital record-keeping and scalable enterprise management through the IC4D framework.",
+    focusArea: "ICT & Digital Skills",
+    status: "Ongoing",
+    image: "/images/programs/nuelink.svg",
+  },
+  {
+    id: "trade-investment",
+    title: "Agribusiness, Trade & Investment",
+    description:
+      "Export readiness certifications, supply contract aggregation, cross-border logistics and market linkage hubs.",
     focusArea: "Agricultural Value Chains",
     status: "Ongoing",
     image: "/images/programs/agrivision.svg",
   },
   {
-    id: "nuelink",
-    title: "NUeLINK",
+    id: "investor-networking",
+    title: "Investor Management & Networking",
     description:
-      "An initiative connecting communities in Northern Uganda to economic and technology-driven opportunities.",
+      "Annual deal-rooms, diaspora syndicate networks, impact investor matchmaking and institutional investor relations governance.",
     focusArea: "Innovation",
-    status: "Ongoing",
-    image: "/images/programs/nuelink.svg",
-  },
-  {
-    id: "wealth-from-waste",
-    title: "Wealth From Waste",
-    description:
-      "A partnership with Woord En Daad and Wilde Ganzen promoting green economy solutions that turn waste into wealth.",
-    focusArea: "Innovation",
-    status: "Ongoing",
-    image: "/images/programs/wealth-from-waste.svg",
-  },
-  {
-    id: "pro-poor-financial-inclusion",
-    title: "Pro-Poor Financial Inclusion",
-    description:
-      "An initiative expanding access to financial services for underserved individuals and communities.",
-    focusArea: "Financial Inclusion",
     status: "Ongoing",
     image: "/images/programs/pro-poor-financial-inclusion.svg",
   },
@@ -65,8 +65,8 @@ export const programs: Program[] = [
     id: "young-african-works",
     title: "Young African Works",
     description:
-      "A partner initiative supporting youth employment and entrepreneurship opportunities.",
-    focusArea: "Entrepreneurship",
+      "Practical training and enterprise development that build the skills businesses need to grow and operate effectively.",
+    focusArea: "Enterprise Development",
     status: "Ongoing",
     image: "/images/programs/young-african-works.svg",
   },
@@ -74,7 +74,7 @@ export const programs: Program[] = [
     id: "work-readiness-program",
     title: "Work Readiness Program",
     description:
-      "A program supported by the Private Sector Foundation, preparing individuals with the skills needed for employment.",
+      "Workplace skills and career preparation aligned with private-sector roles and employer requirements.",
     focusArea: "Business Development",
     status: "Ongoing",
     image: "/images/programs/work-readiness.svg",
@@ -84,10 +84,10 @@ export const programs: Program[] = [
 export const focusAreas = [
   "All",
   "Business Development",
-  "Financial Inclusion",
+  "Business Finance",
   "Agribusiness",
   "Agricultural Value Chains",
   "ICT & Digital Skills",
   "Innovation",
-  "Entrepreneurship",
+  "Enterprise Development",
 ] as const;

@@ -8,48 +8,48 @@ export interface CoreValue {
   description: string;
 }
 
-// Editable organizational values — placeholder descriptions.
+// Operating principles that guide GII's business solutions.
 export const coreValues: CoreValue[] = [
   {
     id: "innovation",
     icon: Lightbulb,
     title: "Innovation",
     description:
-      "Placeholder description — we embrace creative, practical solutions to real challenges.",
+      "Apply practical ideas and technology to solve operational and market challenges.",
   },
   {
     id: "integrity",
     icon: ShieldCheck,
     title: "Integrity",
     description:
-      "Placeholder description — we act with honesty and accountability in everything we do.",
+      "Communicate clearly, handle information responsibly and follow through on commitments.",
   },
   {
     id: "inclusion",
     icon: Users,
     title: "Inclusion",
     description:
-      "Placeholder description — we work to make opportunity accessible to all.",
+      "Build business relationships that value the contribution of farmers, suppliers, employees and customers.",
   },
   {
     id: "excellence",
     icon: Award,
     title: "Excellence",
     description:
-      "Placeholder description — we strive for high standards across our programs and services.",
+      "Set clear expectations and focus on reliable execution and measurable business progress.",
   },
   {
     id: "sustainability",
     icon: Leaf,
     title: "Sustainability",
     description:
-      "Placeholder description — we support solutions built for long-term impact.",
+      "Support commercially viable approaches that can perform over the long term.",
   },
   {
     id: "empowerment",
     icon: Rocket,
-    title: "Empowerment",
+    title: "Enterprise Growth",
     description:
-      "Placeholder description — we equip people and businesses with tools to succeed.",
+      "Strengthen the capabilities, capital access and connections businesses need to grow.",
   },
 ];

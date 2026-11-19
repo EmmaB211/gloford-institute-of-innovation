@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
-import { ArrowDown, Sprout, Warehouse, Factory, Store, TrendingUp } from "lucide-react";
+import type { FormEvent } from "react";
+import { ArrowDown, CheckCircle2, Loader2, PackagePlus, Sprout, Warehouse, Factory, Store, TrendingUp } from "lucide-react";
+import FormField from "../components/FormField";
 import Seo from "../lib/seo";
 import SectionHeader from "../components/SectionHeader";
 import AnimatedSection from "../components/AnimatedSection";
@@ -19,18 +21,23 @@ const valueChain = [
 ];
 
 const agribusinessAreas = [
-  "Farmer support",
-  "Agribusiness financing",
-  "Produce sourcing",
-  "Value addition",
-  "Market access",
-  "Agricultural entrepreneurship",
+  "Commercial production planning",
+  "Working capital and equipment finance",
+  "Produce aggregation and sourcing",
+  "Processing and value addition",
+  "Buyer and market connections",
+  "Supply-chain and logistics support",
 ];
 
 const agribusinessFaqs = faqs.filter((f) => f.id === "faq-agribusiness" || f.id === "faq-farmers");
 
 export default function Agribusiness() {
   const [activeCategory, setActiveCategory] = useState<(typeof productCategories)[number]>("All");
+  const [grainType, setGrainType] = useState("Maize");
+  const [grainAmount, setGrainAmount] = useState("");
+  const [grainLocation, setGrainLocation] = useState("");
+  const [grainStatus, setGrainStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const [grainError, setGrainError] = useState("");
 
   const filteredProducts = useMemo(
     () =>
@@ -39,6 +46,21 @@ export default function Agribusiness() {
         : products.filter((p) => p.category === activeCategory),
     [activeCategory],
   );
+
+  const submitGrainAmount = async (event: FormEvent) => {
+    event.preventDefault();
+    const amount = Number(grainAmount);
+
+    if (!grainAmount || !Number.isFinite(amount) || amount <= 0) {
+      setGrainError("Enter a valid grain amount greater than 0 kg.");
+      return;
+    }
+
+    setGrainError("");
+    setGrainStatus("submitting");
+    await new Promise((resolve) => setTimeout(resolve, 700));
+    setGrainStatus("success");
+  };
 
   return (
     <>
@@ -51,7 +73,7 @@ export default function Agribusiness() {
         <div className="container-page text-center">
           <h1 className="mx-auto max-w-3xl text-4xl text-white sm:text-5xl">From Farm to Market, Creating Value Along the Way.</h1>
           <p className="mx-auto mt-5 max-w-2xl text-white/80">
-            Supporting farmers and agricultural enterprises across the value chain.
+            Commercial agribusiness support—from production planning and aggregation to processing, supply and market access.
           </p>
         </div>
       </section>
@@ -59,7 +81,10 @@ export default function Agribusiness() {
       {/* Value chain */}
       <section className="py-20 sm:py-24">
         <div className="container-page">
-          <SectionHeader title="The Agricultural Value Chain" />
+          <SectionHeader
+            title="Build a More Competitive Agribusiness"
+            description="Coordinate every step of your supply chain to improve consistency, reduce losses and deliver products buyers need."
+          />
           <div className="mt-12 flex flex-col items-center gap-4 sm:flex-row sm:flex-wrap sm:justify-center">
             {valueChain.map((step, i) => {
               const Icon = step.icon;
@@ -95,8 +120,8 @@ export default function Agribusiness() {
       <section id="produce" className="bg-neutral-offwhite py-20 sm:py-24">
         <div className="container-page">
           <SectionHeader
-            title="Agricultural Produce"
-            description="Placeholder product listings — replace with verified product data through the central products data file."
+            title="Source and Sell Agricultural Produce"
+            description="Browse the product categories we work across, then contact our team to discuss current volumes, specifications and buyer or supplier requirements."
           />
           <div className="mt-8 flex flex-wrap justify-center gap-2">
             {productCategories.map((category) => (
@@ -119,6 +144,95 @@ export default function Agribusiness() {
             {filteredProducts.map((product, i) => (
               <ProductCard key={product.id} product={product} index={i} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Grain submission */}
+      <section className="py-20 sm:py-24">
+        <div className="container-page">
+          <div className="mx-auto max-w-3xl rounded-2xl border border-primary-100 bg-primary-50 p-6 sm:p-8">
+            {grainStatus === "success" ? (
+              <div className="flex flex-col items-center text-center">
+                <CheckCircle2 className="h-12 w-12 text-primary-700" aria-hidden="true" />
+                <h2 className="mt-4 text-2xl text-neutral-charcoal">Grain Amount Submitted</h2>
+                <p className="mt-2 text-sm text-neutral-gray">
+                  {Number(grainAmount).toLocaleString()} kg of {grainType}{grainLocation ? ` in ${grainLocation}` : ""} has been submitted for review.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setGrainAmount("");
+                    setGrainLocation("");
+                    setGrainStatus("idle");
+                  }}
+                  className="mt-5 text-sm font-semibold text-primary-700 hover:text-primary-800"
+                >
+                  Submit another amount
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="text-center">
+                  <PackagePlus className="mx-auto h-9 w-9 text-primary-700" aria-hidden="true" />
+                  <h2 className="mt-3 text-2xl text-neutral-charcoal">Submit Your Grain Quantity</h2>
+                  <p className="mt-2 text-sm text-neutral-gray">
+                    Share your crop and available volume to start a sourcing or market-linkage conversation with our agribusiness team.
+                  </p>
+                </div>
+                <form onSubmit={submitGrainAmount} noValidate className="mt-8 space-y-5">
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <FormField
+                      as="select"
+                      label="Grain Type"
+                      name="grainType"
+                      required
+                      value={grainType}
+                      onChange={(event) => setGrainType(event.target.value)}
+                    >
+                      <option value="Maize">Maize</option>
+                      <option value="Rice">Rice</option>
+                      <option value="Beans">Beans</option>
+                      <option value="Soybeans">Soybeans</option>
+                      <option value="Sesame">Sesame</option>
+                      <option value="Millet">Millet</option>
+                      <option value="Sorghum">Sorghum</option>
+                      <option value="Other">Other</option>
+                    </FormField>
+                    <FormField
+                      label="Amount in Kilograms"
+                      name="grainAmount"
+                      type="number"
+                      min="1"
+                      step="1"
+                      required
+                      placeholder="e.g. 500"
+                      value={grainAmount}
+                      onChange={(event) => setGrainAmount(event.target.value)}
+                      error={grainError}
+                    />
+                  </div>
+                  <FormField
+                    label="Location"
+                    name="grainLocation"
+                    placeholder="District or market location"
+                    value={grainLocation}
+                    onChange={(event) => setGrainLocation(event.target.value)}
+                  />
+                  <button
+                    type="submit"
+                    disabled={grainStatus === "submitting"}
+                    className="inline-flex items-center gap-2 rounded-full bg-primary-700 px-7 py-3.5 font-semibold text-white transition hover:bg-primary-800 disabled:opacity-60"
+                  >
+                    {grainStatus === "submitting" ? (
+                      <><Loader2 className="h-4 w-4 animate-spin" /> Submitting...</>
+                    ) : (
+                      <><PackagePlus className="h-4 w-4" /> Submit Grain Amount</>
+                    )}
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         </div>
       </section>

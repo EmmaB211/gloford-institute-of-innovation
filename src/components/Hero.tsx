@@ -1,9 +1,29 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, MessageCircle, Sprout, Cpu, Banknote } from "lucide-react";
-import PlaceholderImage from "./PlaceholderImage";
+import { ArrowLeft, ArrowRight, MessageCircle } from "lucide-react";
+import { useSiteContent } from "../content/SiteContentContext";
 
 export default function Hero() {
+  const { hero } = useSiteContent();
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % hero.slides.length);
+    }, 5000);
+
+    return () => window.clearInterval(intervalId);
+  }, [hero.slides.length]);
+
+  const showPreviousSlide = () => {
+    setActiveSlide((current) => (current - 1 + hero.slides.length) % hero.slides.length);
+  };
+
+  const showNextSlide = () => {
+    setActiveSlide((current) => (current + 1) % hero.slides.length);
+  };
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-primary-950 via-primary-900 to-secondary-900">
       <div
@@ -22,33 +42,28 @@ export default function Hero() {
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-accent-300">
-            Finance · Agribusiness · Technology
+            {hero.eyebrow}
           </span>
           <h1 className="mt-6 text-4xl leading-tight text-white sm:text-5xl lg:text-6xl">
-            Empowering Businesses. Transforming Agriculture. Driving Innovation.
+            {hero.title}
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
-            GLOFORD Institute of Innovation is a social 
-            enterprise and a business arm of GLOFORD Uganda 
-            that works with entrepreneurs, businesses, farmers 
-            and communities to create opportunities through financing, 
-            agribusiness, agricultural value chains, ICT and practical skills development.
-
+            {hero.description}
           </p>
           <div className="mt-9 flex flex-wrap gap-4">
             <Link
-              to="/services"
+              to={hero.primaryButtonPath}
               className="group inline-flex items-center gap-2 rounded-full bg-accent-500 px-7 py-3.5 font-semibold text-neutral-charcoal transition hover:bg-accent-400"
             >
-              Explore Our Services
+              {hero.primaryButtonLabel}
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
             </Link>
             <Link
-              to="/contact"
+              to={hero.secondaryButtonPath}
               className="inline-flex items-center gap-2 rounded-full border border-white/30 px-7 py-3.5 font-semibold text-white transition hover:bg-white/10"
             >
               <MessageCircle className="h-4 w-4" />
-              Talk to Us
+              {hero.secondaryButtonLabel}
             </Link>
           </div>
         </motion.div>
@@ -59,25 +74,59 @@ export default function Hero() {
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
           className="relative"
         >
-          <div className="grid grid-cols-2 gap-4">
-            <PlaceholderImage
-              label="Entrepreneurs & Business"
-              icon={Banknote}
-              tone="accent"
-              className="col-span-2 h-48 rounded-2xl sm:h-56"
-            />
-            <PlaceholderImage
-              label="Agriculture & Farming"
-              icon={Sprout}
-              tone="primary"
-              className="h-40 rounded-2xl sm:h-48"
-            />
-            <PlaceholderImage
-              label="ICT & Innovation"
-              icon={Cpu}
-              tone="secondary"
-              className="h-40 rounded-2xl sm:h-48"
-            />
+          <div
+            className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-primary-950 shadow-2xl"
+            aria-roledescription="carousel"
+            aria-label="GLOFORD areas of work"
+          >
+            {hero.slides.map((slide, index) => (
+              <motion.img
+                key={slide.src}
+                src={slide.src}
+                alt={slide.alt}
+                aria-hidden={index !== activeSlide}
+                initial={false}
+                animate={{ opacity: index === activeSlide ? 1 : 0, scale: index === activeSlide ? 1 : 1.04 }}
+                transition={{ duration: 0.7, ease: "easeInOut" }}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ))}
+            <div className="absolute inset-0 bg-gradient-to-t from-neutral-charcoal/75 via-transparent to-transparent" />
+            <p className="absolute bottom-16 left-5 text-lg font-semibold text-white sm:bottom-20 sm:left-7 sm:text-xl">
+              {hero.slides[activeSlide]?.label}
+            </p>
+            <div className="absolute bottom-4 left-5 flex items-center gap-2 sm:left-7">
+              {hero.slides.map((slide, index) => (
+                <button
+                  key={slide.src}
+                  type="button"
+                  aria-label={`Show slide ${index + 1}: ${slide.label}`}
+                  aria-current={index === activeSlide}
+                  onClick={() => setActiveSlide(index)}
+                  className={`h-2.5 rounded-full transition-all ${
+                    index === activeSlide ? "w-8 bg-white" : "w-2.5 bg-white/60 hover:bg-white"
+                  }`}
+                />
+              ))}
+            </div>
+            <div className="absolute bottom-3 right-4 flex gap-2 sm:bottom-5 sm:right-6">
+              <button
+                type="button"
+                aria-label="Previous photo"
+                onClick={showPreviousSlide}
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-neutral-charcoal transition hover:bg-white"
+              >
+                <ArrowLeft className="h-5 w-5" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                aria-label="Next photo"
+                onClick={showNextSlide}
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-neutral-charcoal transition hover:bg-white"
+              >
+                <ArrowRight className="h-5 w-5" aria-hidden="true" />
+              </button>
+            </div>
           </div>
         </motion.div>
       </div>

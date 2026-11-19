@@ -16,7 +16,7 @@ export const faqs: FAQ[] = [
     id: "faq-support-access",
     question: "Who can access GII's business support services?",
     answer:
-      "Our support services are designed for entrepreneurs, micro and small businesses, and growing enterprises. Contact us to discuss your specific situation.",
+      "We work with entrepreneurs, SMEs and growing enterprises. Contact us to discuss your business goals, financing needs or operational priorities.",
   },
   {
     id: "faq-agribusiness",
@@ -40,6 +40,6 @@ export const faqs: FAQ[] = [
     id: "faq-partner",
     question: "How can I partner with GLOFORD Institute of Innovation?",
     answer:
-      "We welcome partnerships with financial institutions, businesses, NGOs, government bodies, and other organizations. Reach out through our contact page to start the conversation.",
+      "We work with lenders, investors, buyers, producer organizations, technology providers and logistics businesses. Contact us to discuss a commercial collaboration.",
   },
 ];

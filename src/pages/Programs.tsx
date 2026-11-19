@@ -5,16 +5,26 @@ import ProgramCard from "../components/ProgramCard";
 import CTASection from "../components/CTASection";
 import { programs, focusAreas } from "../data/programs";
 import { cn } from "../lib/cn";
+import { useSiteContent } from "../content/SiteContentContext";
 
 export default function Programs() {
+  const content = useSiteContent();
+  const editablePrograms = programs.map((program) => {
+    const override = content.programs.find((item) => item.id === program.id);
+    return {
+      ...program,
+      title: override?.title ?? program.title,
+      description: override?.description ?? program.description,
+    };
+  });
   const [activeFilter, setActiveFilter] = useState<(typeof focusAreas)[number]>("All");
 
   const filteredPrograms = useMemo(
     () =>
       activeFilter === "All"
-        ? programs
-        : programs.filter((program) => program.focusArea === activeFilter),
-    [activeFilter],
+        ? editablePrograms
+        : editablePrograms.filter((program) => program.focusArea === activeFilter),
+    [activeFilter, editablePrograms],
   );
 
   return (
@@ -26,16 +36,16 @@ export default function Programs() {
 
       <section className="bg-gradient-to-br from-primary-900 to-secondary-900 py-20 text-white">
         <div className="container-page text-center">
-          <h1 className="mx-auto max-w-3xl text-4xl text-white sm:text-5xl">Our Programs</h1>
+          <h1 className="mx-auto max-w-3xl text-4xl text-white sm:text-5xl">Enterprise Solutions</h1>
           <p className="mx-auto mt-5 max-w-2xl text-white/80">
-            Editable program categories spanning business, agriculture, ICT and innovation.
+            Explore practical support for business finance, production, processing, trade and digital operations.
           </p>
         </div>
       </section>
 
       <section className="py-20 sm:py-24">
         <div className="container-page">
-          <SectionHeader title="Browse Programs" description="Filter programs by focus area." />
+          <SectionHeader title="Find the right solution" description="Browse enterprise services by business focus area." />
 
           <div className="mt-8 flex flex-wrap justify-center gap-2">
             {focusAreas.map((area) => (
@@ -64,9 +74,9 @@ export default function Programs() {
       </section>
 
       <CTASection
-        title="Ready to Build Your Digital Skills?"
-        description="Join our ICT training and boot camp programs."
-        ctaLabel="View Training Programs"
+        title="Looking to strengthen your team's digital capabilities?"
+        description="Explore practical ICT training and technology support for business operations."
+        ctaLabel="Explore Business ICT"
         ctaPath="/ict#training"
       />
     </>

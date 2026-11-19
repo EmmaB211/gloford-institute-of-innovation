@@ -9,23 +9,24 @@ import {
   YoutubeIcon,
   TikTokIcon,
 } from "./SocialIcons";
+import { useSiteContent } from "../content/SiteContentContext";
 
 const quickLinks = [
   { label: "Home", path: "/" },
   { label: "About", path: "/about" },
-  { label: "Services", path: "/services" },
+  { label: "Loans", path: "/services" },
   { label: "Programs", path: "/programs" },
   { label: "Resources", path: "/resources" },
   { label: "Contact", path: "/contact" },
 ];
 
 const focusLinks = [
-  { label: "Business Financing", path: "/services#financing" },
-  { label: "Micro Businesses", path: "/services#micro-business" },
-  { label: "Agribusiness", path: "/agribusiness" },
-  { label: "Agricultural Produce", path: "/agribusiness#produce" },
-  { label: "ICT & Innovation", path: "/ict" },
-  { label: "ICT Training", path: "/ict#training" },
+  { label: "Agro-industrialization", path: "/#agro-industrialization" },
+  { label: "Microbusiness Loans", path: "/services#loan-products" },
+  { label: "Wealth from Waste Financing", path: "/services#loan-products" },
+  { label: "AI Business Development and IC4D", path: "/ict" },
+  { label: "Agribusiness, Trade and Investment", path: "/agribusiness" },
+  { label: "Investor Management and Networking", path: "/#deal-network" },
 ];
 
 const socials = [
@@ -38,20 +39,20 @@ const socials = [
 ];
 
 export default function Footer() {
+  const { settings } = useSiteContent();
+
   return (
     <footer className="bg-neutral-charcoal text-white/80">
       <div className="container-page grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-2 font-heading text-lg font-bold text-white">
             <img src={logo} alt="GLOFORD Institute of Innovation logo" className="h-10 w-10" />
-            GLOFORD Institute of Innovation
+            {settings.siteName}
           </div>
           <p className="mt-4 text-sm leading-relaxed">
-            The social enterprise and business arm of GLOFORD Uganda, driving
-            transformative innovations across Uganda and Africa through
-            financial inclusion, agribusiness, agro-industrialization and
-            ICT4D for wealth creation.
+            GLOFORD Institute of Innovation is the business solutions arm of Global Forum for Development (GLOFORD Uganda), helping enterprises grow through finance, agribusiness, technology and market connections.
           </p>
+          <p className="mt-3 text-sm font-semibold text-accent-300">&ldquo;{settings.tagline}&rdquo;</p>
           <div className="mt-5 flex gap-3">
             {socials.map(({ label, icon: Icon, href }) => (
               <a
@@ -103,15 +104,19 @@ export default function Footer() {
           <ul className="mt-4 space-y-3 text-sm">
             <li className="flex items-start gap-2">
               <Phone className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
-              <span>+256-392175980 / +256-774016223</span>
+              <span>{settings.contactPhone}</span>
             </li>
             <li className="flex items-start gap-2">
               <Mail className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
-              <span>info@glofordinnovation.org</span>
+              <span>{settings.contactEmail}</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
+              <span>Investor relations: invest@glofordinnovation.org</span>
             </li>
             <li className="flex items-start gap-2">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" aria-hidden="true" />
-              <span>The Leadership House, Plot 106 Police Road, Lira City West Division, P.O Box 331062</span>
+              <span>{settings.address}</span>
             </li>
           </ul>
         </div>

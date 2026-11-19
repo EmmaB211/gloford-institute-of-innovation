@@ -6,8 +6,10 @@ import logo from "../assets/logo.png";
 import { navLinks } from "../data/nav";
 import { useScrollPosition } from "../hooks/useScrollPosition";
 import { cn } from "../lib/cn";
+import { useSiteContent } from "../content/SiteContentContext";
 
 export default function Navbar() {
+  const { settings } = useSiteContent();
   const [open, setOpen] = useState(false);
   const scrolled = useScrollPosition(16);
 
@@ -23,7 +25,7 @@ export default function Navbar() {
       <nav className="container-page flex items-center justify-between" aria-label="Main navigation">
         <Link to="/" className="flex items-center gap-2 font-heading text-lg font-bold text-primary-800">
           <img src={logo} alt="GLOFORD Institute of Innovation logo" className="h-10 w-10" />
-          <span className="hidden sm:inline">GLOFORD Institute<span className="text-accent-600"> of Innovation</span></span>
+          <span className="hidden sm:inline">{settings.siteName}</span>
           <span className="sm:hidden">GII</span>
         </Link>
 
