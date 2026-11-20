@@ -1,17 +1,14 @@
-import { Link } from "react-router-dom";
-import { ArrowRight, Wallet, Cpu, Briefcase, Sprout } from "lucide-react";
+import { Wallet, Cpu, Briefcase, Sprout } from "lucide-react";
 import Seo from "../lib/seo";
 import Hero from "../components/Hero";
 import SectionHeader from "../components/SectionHeader";
 import AnimatedSection from "../components/AnimatedSection";
 import ImpactStats from "../components/ImpactStats";
 import ServiceCard from "../components/ServiceCard";
-import ProgramCard from "../components/ProgramCard";
 import ArticleCard from "../components/ArticleCard";
 import CTASection from "../components/CTASection";
 import StrategicSections from "../components/StrategicSections";
 import { services } from "../data/services";
-import { programs } from "../data/programs";
 import { articles } from "../data/news";
 import { useSiteContent } from "../content/SiteContentContext";
 import { strategicPortfolios } from "../data/strategic";
@@ -41,15 +38,6 @@ export default function Home() {
       description: override?.description ?? service.description,
     };
   });
-  const editablePrograms = programs.map((program) => {
-    const override = content.programs.find((item) => item.id === program.id);
-    return {
-      ...program,
-      title: override?.title ?? program.title,
-      description: override?.description ?? program.description,
-    };
-  });
-
   return (
     <>
       <Seo
@@ -62,7 +50,7 @@ export default function Home() {
       <section className="bg-neutral-charcoal py-14">
         <div className="container-page">
           <ImpactStats stats={content.impactStats} />
-          <p className="mt-4 text-center text-xs text-white/60">
+          <p className="mt-4 text-center text-xs text-white/75">
             Impact figures are reproduced from the reference site and have not been independently verified.
           </p>
         </div>
@@ -138,26 +126,6 @@ export default function Home() {
                 <p className="mt-3 text-sm leading-relaxed text-neutral-gray">{outcome.description}</p>
               </AnimatedSection>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Programs teaser */}
-      <section className="bg-neutral-offwhite py-20 sm:py-24">
-        <div className="container-page">
-          <SectionHeader title="Business Solutions" description="Explore services and programs that support commercial growth." />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {editablePrograms.slice(0, 3).map((program, i) => (
-              <ProgramCard key={program.id} program={program} index={i} />
-            ))}
-          </div>
-          <div className="mt-10 text-center">
-            <Link
-              to="/programs"
-              className="inline-flex items-center gap-2 rounded-full border border-primary-700 px-6 py-3 text-sm font-semibold text-primary-800 transition hover:bg-primary-700 hover:text-white"
-            >
-              View All Programs <ArrowRight className="h-4 w-4" />
-            </Link>
           </div>
         </div>
       </section>

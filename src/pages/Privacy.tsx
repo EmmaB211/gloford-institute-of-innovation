@@ -10,9 +10,13 @@ export default function Privacy() {
       <div className="container-page max-w-3xl py-20">
         <h1 className="text-3xl">Privacy Policy</h1>
         <p className="mt-6 text-sm leading-relaxed text-neutral-gray">
-          Placeholder content. This page will outline how GLOFORD Institute of Innovation
-          collects, uses and protects personal information submitted through this website.
-          Replace with a finalized privacy policy once available.
+          Information submitted through the contact, training, loan enquiry and grain forms is
+          transmitted to GLOFORD Institute of Innovation's configured company inbox using
+          Supabase Edge Functions and Resend email delivery. These submissions are not stored
+          in this website's database, but the delivery services may process them to send the email.
+          Do not submit National ID numbers or attach sensitive documents through these forms.
+          GLOFORD should publish a complete privacy policy covering data retention and individual
+          privacy rights.
         </p>
       </div>
     </>

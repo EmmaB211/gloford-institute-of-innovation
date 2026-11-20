@@ -3,7 +3,6 @@ import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
-import Programs from "./pages/Programs";
 import Agribusiness from "./pages/Agribusiness";
 import ICT from "./pages/ICT";
 import Resources from "./pages/Resources";
@@ -24,7 +23,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/programs" element={<Programs />} />
           <Route path="/agribusiness" element={<Agribusiness />} />
           <Route path="/ict" element={<ICT />} />
           <Route path="/resources" element={<Resources />} />

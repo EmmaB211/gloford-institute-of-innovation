@@ -1,8 +1,9 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { CheckCircle2, AlertCircle, Loader2, Send } from "lucide-react";
+import { AlertCircle, CheckCircle2, Loader2, Send } from "lucide-react";
 import FormField from "./FormField";
 import { trainingCategories } from "../data/training";
+import { sendFormSubmission } from "../lib/sendFormSubmission";
 
 interface TrainingFormData {
   fullName: string;
@@ -26,16 +27,24 @@ const initialData: TrainingFormData = {
   message: "",
 };
 
-type Status = "idle" | "submitting" | "success" | "error";
 type Errors = Partial<Record<keyof TrainingFormData, string>>;
+type Status = "idle" | "submitting" | "success" | "error";
 
-export default function TrainingRegistrationForm() {
-  const [data, setData] = useState(initialData);
+interface TrainingRegistrationFormProps {
+  initialInterest?: string;
+}
+
+export default function TrainingRegistrationForm({ initialInterest = "" }: TrainingRegistrationFormProps) {
+  const [data, setData] = useState(() => ({ ...initialData, trainingInterest: initialInterest }));
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>("idle");
+  const [submissionError, setSubmissionError] = useState("");
 
-  const update = <K extends keyof TrainingFormData>(key: K, value: TrainingFormData[K]) =>
+  const update = <K extends keyof TrainingFormData>(key: K, value: TrainingFormData[K]) => {
     setData((prev) => ({ ...prev, [key]: value }));
+    setStatus("idle");
+    setSubmissionError("");
+  };
 
   const validate = (): boolean => {
     const next: Errors = {};
@@ -51,28 +60,29 @@ export default function TrainingRegistrationForm() {
     return Object.keys(next).length === 0;
   };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
     if (!validate()) return;
+
     setStatus("submitting");
+    setSubmissionError("");
     try {
-      // Placeholder submission — replace with a real API call once a training/CRM backend is available.
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      await sendFormSubmission("training", data);
       setStatus("success");
       setData(initialData);
-    } catch {
+    } catch (error) {
+      setSubmissionError(error instanceof Error ? error.message : "We could not submit your registration. Please try again later.");
       setStatus("error");
     }
   };
 
   if (status === "success") {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-2xl border border-primary-200 bg-primary-50 p-10 text-center">
-        <CheckCircle2 className="h-10 w-10 text-primary-700" />
+      <div role="status" className="flex flex-col items-center gap-3 rounded-2xl border border-primary-200 bg-primary-50 p-8 text-center">
+        <CheckCircle2 className="h-10 w-10 text-primary-700" aria-hidden="true" />
         <h3 className="text-lg text-neutral-charcoal">Registration Received</h3>
         <p className="max-w-md text-sm text-neutral-gray">
-          Thank you for registering your interest. We will share details about
-          upcoming training sessions as they are confirmed.
+          Thank you. Your registration has been emailed to GLOFORD Institute of Innovation.
         </p>
         <button
           type="button"
@@ -88,22 +98,22 @@ export default function TrainingRegistrationForm() {
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
-        <FormField label="Full Name" name="fullName" required value={data.fullName} onChange={(e) => update("fullName", e.target.value)} error={errors.fullName} />
-        <FormField label="Phone" name="phone" type="tel" required value={data.phone} onChange={(e) => update("phone", e.target.value)} error={errors.phone} />
+        <FormField label="Full Name" name="fullName" required value={data.fullName} onChange={(event) => update("fullName", event.target.value)} error={errors.fullName} />
+        <FormField label="Phone" name="phone" type="tel" required value={data.phone} onChange={(event) => update("phone", event.target.value)} error={errors.phone} />
       </div>
       <div className="grid gap-5 sm:grid-cols-2">
-        <FormField label="Email" name="email" type="email" required value={data.email} onChange={(e) => update("email", e.target.value)} error={errors.email} />
-        <FormField label="Age" name="age" type="number" min={1} required value={data.age} onChange={(e) => update("age", e.target.value)} error={errors.age} />
+        <FormField label="Email" name="email" type="email" required value={data.email} onChange={(event) => update("email", event.target.value)} error={errors.email} />
+        <FormField label="Age" name="age" type="number" min={1} required value={data.age} onChange={(event) => update("age", event.target.value)} error={errors.age} />
       </div>
       <div className="grid gap-5 sm:grid-cols-2">
-        <FormField label="Location" name="location" required value={data.location} onChange={(e) => update("location", e.target.value)} error={errors.location} />
+        <FormField label="Location" name="location" required value={data.location} onChange={(event) => update("location", event.target.value)} error={errors.location} />
         <FormField
           as="select"
           label="Training Interest"
           name="trainingInterest"
           required
           value={data.trainingInterest}
-          onChange={(e) => update("trainingInterest", e.target.value)}
+          onChange={(event) => update("trainingInterest", event.target.value)}
           error={errors.trainingInterest}
         >
           <option value="">Select a training category</option>
@@ -120,7 +130,7 @@ export default function TrainingRegistrationForm() {
         name="experienceLevel"
         required
         value={data.experienceLevel}
-        onChange={(e) => update("experienceLevel", e.target.value as TrainingFormData["experienceLevel"])}
+        onChange={(event) => update("experienceLevel", event.target.value as TrainingFormData["experienceLevel"])}
         error={errors.experienceLevel}
       >
         <option value="">Select experience level</option>
@@ -128,11 +138,12 @@ export default function TrainingRegistrationForm() {
         <option value="intermediate">Intermediate</option>
         <option value="advanced">Advanced</option>
       </FormField>
-      <FormField as="textarea" label="Message" name="message" value={data.message} onChange={(e) => update("message", e.target.value)} />
+      <FormField as="textarea" label="Message" name="message" value={data.message} onChange={(event) => update("message", event.target.value)} />
 
       {status === "error" && (
         <p className="flex items-center gap-2 text-sm font-medium text-red-500">
-          <AlertCircle className="h-4 w-4" /> Something went wrong. Please try again.
+          <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
+          {submissionError}
         </p>
       )}
 
@@ -142,13 +153,9 @@ export default function TrainingRegistrationForm() {
         className="inline-flex items-center gap-2 rounded-full bg-primary-700 px-7 py-3.5 font-semibold text-white transition hover:bg-primary-800 disabled:opacity-60"
       >
         {status === "submitting" ? (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" /> Submitting...
-          </>
+          <><Loader2 className="h-4 w-4 animate-spin" /> Sending...</>
         ) : (
-          <>
-            <Send className="h-4 w-4" /> Register for Training
-          </>
+          <><Send className="h-4 w-4" /> Register for Training</>
         )}
       </button>
     </form>

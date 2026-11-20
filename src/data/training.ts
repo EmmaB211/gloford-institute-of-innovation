@@ -6,6 +6,8 @@ export interface TrainingCategory {
 
 // Practical digital training categories for business teams and professionals.
 export const trainingCategories: TrainingCategory[] = [
+  { id: "ai-training", title: "AI Training", description: "Apply AI tools to everyday work and business operations." },
+  { id: "ict-boot-camp", title: "ICT Boot Camp", description: "Build practical digital and technology skills." },
   { id: "web-development", title: "Web Development", description: "Build and maintain websites and digital services for business use." },
   { id: "digital-skills", title: "Digital Workplace Skills", description: "Use common digital tools to communicate, organize work and manage information." },
   { id: "computer-applications", title: "Business Applications", description: "Apply office and productivity software to everyday business tasks." },

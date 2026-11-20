@@ -15,7 +15,6 @@ const quickLinks = [
   { label: "Home", path: "/" },
   { label: "About", path: "/about" },
   { label: "Loans", path: "/services" },
-  { label: "Programs", path: "/programs" },
   { label: "Resources", path: "/resources" },
   { label: "Contact", path: "/contact" },
 ];
@@ -42,7 +41,7 @@ export default function Footer() {
   const { settings } = useSiteContent();
 
   return (
-    <footer className="bg-neutral-charcoal text-white/80">
+    <footer className="footer-brand-pattern bg-neutral-charcoal text-white/80">
       <div className="container-page grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-2 font-heading text-lg font-bold text-white">
@@ -74,7 +73,7 @@ export default function Footer() {
           <ul className="mt-4 space-y-2 text-sm">
             {quickLinks.map((link) => (
               <li key={link.path}>
-                <Link to={link.path} className="transition hover:text-accent-400">
+                <Link to={link.path} className="text-secondary-300 transition hover:text-accent-300">
                   {link.label}
                 </Link>
               </li>
@@ -89,7 +88,7 @@ export default function Footer() {
           <ul className="mt-4 space-y-2 text-sm">
             {focusLinks.map((link) => (
               <li key={link.label}>
-                <Link to={link.path} className="transition hover:text-accent-400">
+                <Link to={link.path} className="text-secondary-300 transition hover:text-accent-300">
                   {link.label}
                 </Link>
               </li>
@@ -123,7 +122,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="container-page flex flex-col items-center justify-between gap-3 py-6 text-xs text-white/60 sm:flex-row">
+        <div className="container-page flex flex-col items-center justify-between gap-3 py-6 text-xs text-white/75 sm:flex-row">
           <p>&copy; 2026 GLOFORD Institute of Innovation. All Rights Reserved.</p>
           <div className="flex gap-5">
             <Link to="/privacy-policy" className="hover:text-white">

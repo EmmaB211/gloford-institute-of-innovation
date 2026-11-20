@@ -1,10 +1,13 @@
-import { Phone, Mail, MapPin, Clock, MapPinned, Landmark, Building2, Users2, Rocket } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, ExternalLink, Landmark, Building2, Users2, Rocket } from "lucide-react";
 import Seo from "../lib/seo";
 import SectionHeader from "../components/SectionHeader";
 import AnimatedSection from "../components/AnimatedSection";
 import ContactForm from "../components/ContactForm";
-import PlaceholderImage from "../components/PlaceholderImage";
 import CTASection from "../components/CTASection";
+
+const googleMapsUrl = "https://maps.app.goo.gl/h9oJRAYUnfLbjEH8A";
+const googleMapsEmbedUrl =
+  "https://maps.google.com/maps?q=GLOFORD%20Institute%20of%20Innovation%2C%20Lira%2C%20Uganda&z=17&output=embed";
 
 const contactDetails = [
   { icon: Phone, label: "Phone", value: "+256-392175980 / +256-774016223" },
@@ -59,7 +62,25 @@ export default function Contact() {
                 </div>
               ))}
             </div>
-            <PlaceholderImage label="Our Location" icon={MapPinned} tone="secondary" className="mt-8 h-56 w-full rounded-2xl" />
+            <div className="mt-8 overflow-hidden rounded-2xl border border-neutral-light bg-white shadow-sm">
+              <iframe
+                title="GLOFORD Institute of Innovation location on Google Maps"
+                src={googleMapsEmbedUrl}
+                className="h-64 w-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+              <a
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-3 text-sm font-semibold text-primary-700 transition hover:text-primary-800"
+              >
+                Get directions on Google Maps
+                <ExternalLink className="h-4 w-4" aria-hidden="true" />
+              </a>
+            </div>
           </AnimatedSection>
 
           <AnimatedSection delay={0.1} className="rounded-2xl border border-neutral-light bg-white p-7 shadow-sm">

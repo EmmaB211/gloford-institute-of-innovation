@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { CheckCircle2, AlertCircle, Loader2, Send } from "lucide-react";
 import FormField from "./FormField";
+import { sendFormSubmission } from "../lib/sendFormSubmission";
 
 interface ContactFormData {
   name: string;
@@ -25,6 +26,7 @@ export default function ContactForm() {
   const [data, setData] = useState(initialData);
   const [errors, setErrors] = useState<Partial<ContactFormData>>({});
   const [status, setStatus] = useState<Status>("idle");
+  const [submissionError, setSubmissionError] = useState("");
 
   const validate = (): boolean => {
     const nextErrors: Partial<ContactFormData> = {};
@@ -42,13 +44,13 @@ export default function ContactForm() {
     if (!validate()) return;
 
     setStatus("submitting");
+    setSubmissionError("");
     try {
-      // Placeholder submission — replace with a real API call once a backend endpoint is available,
-      // e.g. fetch(import.meta.env.VITE_API_URL + "/contact", { method: "POST", body: JSON.stringify(data) })
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await sendFormSubmission("contact", data);
       setStatus("success");
       setData(initialData);
-    } catch {
+    } catch (error) {
+      setSubmissionError(error instanceof Error ? error.message : "We could not send your message. Please try again later.");
       setStatus("error");
     }
   };
@@ -122,7 +124,7 @@ export default function ContactForm() {
 
       {status === "error" && (
         <p className="flex items-center gap-2 text-sm font-medium text-red-500">
-          <AlertCircle className="h-4 w-4" /> Something went wrong. Please try again.
+          <AlertCircle className="h-4 w-4" /> {submissionError}
         </p>
       )}
 

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { ArrowRight, CircleAlert, Mail } from "lucide-react";
+import { AlertCircle, CheckCircle2, Loader2, Send } from "lucide-react";
 import FormField from "./FormField";
+import { sendFormSubmission } from "../lib/sendFormSubmission";
 
 type LoanProduct = "microbusiness" | "wealth-from-waste" | "";
 
@@ -48,15 +49,18 @@ const initialData: LoanFormData = {
 };
 
 type Errors = Partial<Record<keyof LoanFormData, string>>;
+type Status = "idle" | "submitting" | "success" | "error";
 
 export default function LoanApplicationForm() {
   const [data, setData] = useState(initialData);
   const [errors, setErrors] = useState<Errors>({});
-  const [preparedHref, setPreparedHref] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
+  const [submissionError, setSubmissionError] = useState("");
 
   const update = <K extends keyof LoanFormData>(key: K, value: LoanFormData[K]) => {
     setData((previous) => ({ ...previous, [key]: value }));
-    setPreparedHref("");
+    setStatus("idle");
+    setSubmissionError("");
   };
 
   const validate = (): boolean => {
@@ -86,38 +90,40 @@ export default function LoanApplicationForm() {
     return Object.keys(next).length === 0;
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!validate()) return;
-
-    const recipient = data.loanProduct === "wealth-from-waste"
-      ? "glofordinnovation@gmail.com"
-      : "info@glofordinnovation.org";
-    const productName = data.loanProduct === "wealth-from-waste"
-      ? "Wealth from Waste early-stage financing"
-      : "Microbusiness Credit Support";
-    const subject = `Loan enquiry - ${productName} - ${data.businessName.trim()}`;
-    const body = [
-      `Loan product: ${productName}`,
-      `Applicant name: ${data.fullName.trim()}`,
-      `Phone: ${data.phone.trim()}`,
-      `Email: ${data.email.trim()}`,
-      ...(data.loanProduct === "wealth-from-waste" ? [`Age: ${data.age.trim()}`] : []),
-      ...(data.loanProduct === "microbusiness" ? [`Currently operating: ${data.businessStatus === "active" ? "Yes" : "No"}`] : []),
-      `Business / venture: ${data.businessName.trim()}`,
-      `Business activity: ${data.businessType.trim()}`,
-      `Location: ${data.location.trim()}`,
-      `Amount requested (UGX): ${data.amountRequired.trim()}`,
-      `Purpose: ${data.purpose.trim()}`,
-      ...(data.loanProduct === "wealth-from-waste" ? [`Group: ${data.groupName.trim()}`] : []),
-      ...(data.loanProduct === "wealth-from-waste" ? [`Group leader: ${data.groupLeader.trim()}`] : []),
-      ...(data.additionalInfo.trim() ? [`Additional information: ${data.additionalInfo.trim()}`] : []),
-      "",
-      "I understand this is an enquiry only, not a loan approval. I will complete the official GII application form and confirm the applicable written terms with GII.",
-    ].join("\n");
-    setPreparedHref(`mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+    setStatus("submitting");
+    setSubmissionError("");
     setErrors({});
+    try {
+      await sendFormSubmission("loan", data);
+      setStatus("success");
+      setData(initialData);
+    } catch (error) {
+      setSubmissionError(error instanceof Error ? error.message : "We could not submit your enquiry. Please try again later.");
+      setStatus("error");
+    }
   };
+
+  if (status === "success") {
+    return (
+      <div role="status" className="flex flex-col items-center gap-3 rounded-2xl border border-primary-200 bg-primary-50 p-8 text-center">
+        <CheckCircle2 className="h-10 w-10 text-primary-700" aria-hidden="true" />
+        <h3 className="text-lg text-neutral-charcoal">Loan Enquiry Sent</h3>
+        <p className="max-w-md text-sm text-neutral-gray">
+          Your enquiry has been emailed to GLOFORD Institute of Innovation. Submission does not guarantee loan approval.
+        </p>
+        <button
+          type="button"
+          onClick={() => setStatus("idle")}
+          className="mt-2 text-sm font-semibold text-primary-700 hover:text-primary-800"
+        >
+          Start another enquiry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5">
@@ -184,29 +190,26 @@ export default function LoanApplicationForm() {
       <FormField as="textarea" label="Additional Information" name="additionalInfo" value={data.additionalInfo} onChange={(event) => update("additionalInfo", event.target.value)} />
 
       <p className="text-xs leading-relaxed text-neutral-gray">
-        This website does not store or send applications. The button prepares an email draft on your device; you must send it yourself. Attach the completed official form and required documents. Do not enter your National ID number or attach sensitive documents to an unsecured email.
+        Your enquiry will be emailed to GLOFORD Institute of Innovation. This is not a loan approval. Do not enter your National ID number or other sensitive information here.
       </p>
 
-      {preparedHref && (
-        <div className="rounded-xl border border-primary-200 bg-primary-50 p-4">
-          <p className="flex items-start gap-2 text-sm leading-relaxed text-neutral-charcoal">
-            <CircleAlert className="mt-0.5 h-4 w-4 shrink-0 text-primary-700" aria-hidden="true" />
-            Your email draft is ready. GII has not received your enquiry until you open and send it.
-          </p>
-          <a
-            href={preparedHref}
-            className="mt-3 inline-flex items-center gap-2 font-semibold text-primary-700 hover:text-primary-800"
-          >
-            Open email draft <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </a>
-        </div>
+      {status === "error" && (
+        <p className="flex items-center gap-2 text-sm font-medium text-red-500">
+          <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
+          {submissionError}
+        </p>
       )}
 
       <button
         type="submit"
-        className="inline-flex items-center gap-2 rounded-full bg-primary-700 px-7 py-3.5 font-semibold text-white transition hover:bg-primary-800"
+        disabled={status === "submitting"}
+        className="inline-flex items-center gap-2 rounded-full bg-primary-700 px-7 py-3.5 font-semibold text-white transition hover:bg-primary-800 disabled:opacity-60"
       >
-        <Mail className="h-4 w-4" aria-hidden="true" /> Prepare enquiry email
+        {status === "submitting" ? (
+          <><Loader2 className="h-4 w-4 animate-spin" /> Sending...</>
+        ) : (
+          <><Send className="h-4 w-4" /> Submit Loan Enquiry</>
+        )}
       </button>
     </form>
   );

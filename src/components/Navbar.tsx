@@ -18,8 +18,8 @@ export default function Navbar() {
       className={cn(
         "sticky top-0 z-50 w-full border-b transition-all duration-300",
         scrolled
-          ? "border-neutral-light bg-white/95 py-2 shadow-sm backdrop-blur"
-          : "border-transparent bg-white py-4",
+          ? "border-neutral-light bg-neutral-white/95 py-2 shadow-sm backdrop-blur"
+          : "border-transparent bg-neutral-white py-4",
       )}
     >
       <nav className="container-page flex items-center justify-between" aria-label="Main navigation">
@@ -38,8 +38,8 @@ export default function Navbar() {
                 cn(
                   "rounded-full px-4 py-2 text-sm font-medium transition-colors",
                   isActive
-                    ? "bg-primary-50 text-primary-800"
-                    : "text-neutral-charcoal/80 hover:bg-neutral-light hover:text-primary-800",
+                    ? "bg-secondary-50 text-secondary-800"
+                    : "text-neutral-charcoal hover:bg-neutral-light hover:text-secondary-800",
                 )
               }
               end={link.path === "/"}
@@ -87,8 +87,8 @@ export default function Navbar() {
                     cn(
                       "rounded-lg px-4 py-3 text-sm font-medium",
                       isActive
-                        ? "bg-primary-50 text-primary-800"
-                        : "text-neutral-charcoal/80 hover:bg-neutral-light",
+                        ? "bg-secondary-50 text-secondary-800"
+                        : "text-neutral-charcoal hover:bg-neutral-light hover:text-secondary-800",
                     )
                   }
                   end={link.path === "/"}

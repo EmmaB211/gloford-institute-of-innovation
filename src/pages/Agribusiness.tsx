@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import type { FormEvent } from "react";
-import { ArrowDown, CheckCircle2, Loader2, PackagePlus, Sprout, Warehouse, Factory, Store, TrendingUp } from "lucide-react";
+import { AlertCircle, ArrowDown, CheckCircle2, Loader2, PackagePlus, Sprout, Warehouse, Factory, Store, TrendingUp } from "lucide-react";
 import FormField from "../components/FormField";
 import Seo from "../lib/seo";
 import SectionHeader from "../components/SectionHeader";
@@ -11,6 +11,7 @@ import FAQAccordion from "../components/FAQAccordion";
 import { products, productCategories } from "../data/products";
 import { faqs } from "../data/faqs";
 import { cn } from "../lib/cn";
+import { sendFormSubmission } from "../lib/sendFormSubmission";
 
 const valueChain = [
   { icon: Sprout, label: "Production" },
@@ -36,8 +37,9 @@ export default function Agribusiness() {
   const [grainType, setGrainType] = useState("Maize");
   const [grainAmount, setGrainAmount] = useState("");
   const [grainLocation, setGrainLocation] = useState("");
-  const [grainStatus, setGrainStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const [grainStatus, setGrainStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [grainError, setGrainError] = useState("");
+  const [grainSubmissionError, setGrainSubmissionError] = useState("");
 
   const filteredProducts = useMemo(
     () =>
@@ -57,9 +59,19 @@ export default function Agribusiness() {
     }
 
     setGrainError("");
+    setGrainSubmissionError("");
     setGrainStatus("submitting");
-    await new Promise((resolve) => setTimeout(resolve, 700));
-    setGrainStatus("success");
+    try {
+      await sendFormSubmission("grain", {
+        grainType,
+        amountKilograms: grainAmount,
+        location: grainLocation,
+      });
+      setGrainStatus("success");
+    } catch (error) {
+      setGrainSubmissionError(error instanceof Error ? error.message : "We could not submit your grain amount. Please try again later.");
+      setGrainStatus("error");
+    }
   };
 
   return (
@@ -157,7 +169,7 @@ export default function Agribusiness() {
                 <CheckCircle2 className="h-12 w-12 text-primary-700" aria-hidden="true" />
                 <h2 className="mt-4 text-2xl text-neutral-charcoal">Grain Amount Submitted</h2>
                 <p className="mt-2 text-sm text-neutral-gray">
-                  {Number(grainAmount).toLocaleString()} kg of {grainType}{grainLocation ? ` in ${grainLocation}` : ""} has been submitted for review.
+                  {Number(grainAmount).toLocaleString()} kg of {grainType}{grainLocation ? ` in ${grainLocation}` : ""} has been emailed to our agribusiness team.
                 </p>
                 <button
                   type="button"
@@ -177,7 +189,7 @@ export default function Agribusiness() {
                   <PackagePlus className="mx-auto h-9 w-9 text-primary-700" aria-hidden="true" />
                   <h2 className="mt-3 text-2xl text-neutral-charcoal">Submit Your Grain Quantity</h2>
                   <p className="mt-2 text-sm text-neutral-gray">
-                    Share your crop and available volume to start a sourcing or market-linkage conversation with our agribusiness team.
+                    Share your crop and available volume. The details will be emailed to our agribusiness team.
                   </p>
                 </div>
                 <form onSubmit={submitGrainAmount} noValidate className="mt-8 space-y-5">
@@ -208,7 +220,12 @@ export default function Agribusiness() {
                       required
                       placeholder="e.g. 500"
                       value={grainAmount}
-                      onChange={(event) => setGrainAmount(event.target.value)}
+                      onChange={(event) => {
+                        setGrainAmount(event.target.value);
+                        setGrainError("");
+                        setGrainSubmissionError("");
+                        setGrainStatus("idle");
+                      }}
                       error={grainError}
                     />
                   </div>
@@ -217,8 +234,18 @@ export default function Agribusiness() {
                     name="grainLocation"
                     placeholder="District or market location"
                     value={grainLocation}
-                    onChange={(event) => setGrainLocation(event.target.value)}
+                    onChange={(event) => {
+                      setGrainLocation(event.target.value);
+                      setGrainSubmissionError("");
+                      setGrainStatus("idle");
+                    }}
                   />
+                  {grainStatus === "error" && (
+                    <p className="flex items-center gap-2 text-sm font-medium text-red-500">
+                      <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      {grainSubmissionError}
+                    </p>
+                  )}
                   <button
                     type="submit"
                     disabled={grainStatus === "submitting"}
