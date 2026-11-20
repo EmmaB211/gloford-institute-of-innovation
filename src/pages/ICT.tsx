@@ -2,10 +2,10 @@ import { Cpu, Code2, ShieldCheck, Network, Palette, Sparkles, Laptop } from "luc
 import Seo from "../lib/seo";
 import SectionHeader from "../components/SectionHeader";
 import AnimatedSection from "../components/AnimatedSection";
-import PlaceholderImage from "../components/PlaceholderImage";
 import TrainingRegistrationForm from "../components/TrainingRegistrationForm";
 import CTASection from "../components/CTASection";
 import { trainingCategories } from "../data/training";
+import ictBootcampImage from "../assets/Collaborative ICT Bootcamp Training.png";
 
 const categoryIcons: Record<string, typeof Code2> = {
   "web-development": Code2,
@@ -28,7 +28,7 @@ export default function ICT() {
 
       <section className="bg-gradient-to-br from-secondary-900 to-primary-900 py-20 text-white">
         <div className="container-page text-center">
-          <h1 className="mx-auto max-w-3xl text-4xl text-white sm:text-5xl">Technology That Improves Business Performance</h1>
+          <h1 className="text-page-title mx-auto max-w-3xl text-white">Technology That Improves Business Performance</h1>
           <p className="mx-auto mt-5 max-w-2xl text-white/80">
             Practical digital tools and capabilities to help teams manage operations, reach customers and make better-informed decisions.
           </p>
@@ -85,7 +85,12 @@ export default function ICT() {
           </div>
 
           <div className="mx-auto mt-14 grid max-w-5xl gap-10 rounded-2xl border border-neutral-light bg-white p-8 shadow-sm lg:grid-cols-2">
-            <PlaceholderImage label="ICT Boot Camp" icon={Laptop} tone="secondary" className="h-full min-h-[280px] w-full rounded-xl" />
+            <img
+              src={ictBootcampImage}
+              alt="GLOFORD learners and instructor taking part in an ICT Boot Camp"
+              className="h-full min-h-[280px] w-full rounded-xl object-cover"
+              loading="lazy"
+            />
             <div>
               <h3 className="mb-5 text-lg">Register for Training</h3>
               <TrainingRegistrationForm />

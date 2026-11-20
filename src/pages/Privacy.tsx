@@ -8,7 +8,7 @@ export default function Privacy() {
         description="Privacy Policy for GLOFORD Institute of Innovation."
       />
       <div className="container-page max-w-3xl py-20">
-        <h1 className="text-3xl">Privacy Policy</h1>
+        <h1 className="text-page-title">Privacy Policy</h1>
         <p className="mt-6 text-sm leading-relaxed text-neutral-gray">
           Information submitted through the contact, training, loan enquiry and grain forms is
           transmitted to GLOFORD Institute of Innovation's configured company inbox using

@@ -44,7 +44,7 @@ export default function Hero() {
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-accent-300">
             {hero.eyebrow}
           </span>
-          <h1 className="mt-6 text-4xl leading-tight text-white sm:text-5xl lg:text-6xl">
+          <h1 className="text-hero mt-6 text-white">
             {hero.title}
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">

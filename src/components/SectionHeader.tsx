@@ -36,7 +36,7 @@ export default function SectionHeader({
       )}
       <h2
         className={cn(
-          "text-3xl sm:text-4xl lg:text-[2.75rem] leading-tight",
+          "text-section",
           light ? "text-white" : "text-neutral-charcoal",
         )}
       >

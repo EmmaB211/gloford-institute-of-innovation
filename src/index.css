@@ -43,8 +43,10 @@
   --color-neutral-gray: #40536d;
   --color-neutral-charcoal: #172b4d;
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
 .bg-white {
@@ -74,8 +76,9 @@ main.page-background > section.bg-neutral-offwhite {
   }
 
   body {
-    @apply bg-neutral-white text-neutral-charcoal font-medium antialiased;
-    font-family: var(--font-sans);
+    @apply bg-neutral-white text-neutral-charcoal antialiased;
+    font-family: var(--font-body);
+    font-weight: 400;
   }
 
   h1,
@@ -85,7 +88,9 @@ main.page-background > section.bg-neutral-offwhite {
   h5,
   h6 {
     @apply font-bold text-neutral-charcoal;
-    font-family: var(--font-heading);
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+    line-height: 1.15;
   }
 
   :focus-visible {
@@ -95,6 +100,44 @@ main.page-background > section.bg-neutral-offwhite {
 }
 
 @layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-body {
+    font-family: var(--font-body);
+  }
+
+  .text-hero {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+  }
+
+  .text-page-title {
+    font-size: clamp(2.25rem, 4vw, 3rem);
+    letter-spacing: -0.035em;
+    line-height: 1.12;
+  }
+
+  .text-section {
+    font-size: clamp(2.25rem, 3.8vw, 3rem);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  .text-impact {
+    font-size: clamp(2.5rem, 4vw, 3.75rem);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .text-promo {
+    font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
   .container-page {
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }

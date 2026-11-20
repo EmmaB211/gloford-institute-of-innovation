@@ -38,7 +38,7 @@ export default function Resources() {
 
       <section className="bg-gradient-to-br from-primary-900 to-secondary-900 py-20 text-white">
         <div className="container-page text-center">
-          <h1 className="mx-auto max-w-3xl text-4xl text-white sm:text-5xl">News & Insights</h1>
+          <h1 className="text-page-title mx-auto max-w-3xl text-white">News & Insights</h1>
           <p className="mx-auto mt-5 max-w-2xl text-white/80">
             Stories and updates from across our work in finance, agriculture and technology.
           </p>

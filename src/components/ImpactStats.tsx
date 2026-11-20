@@ -5,7 +5,7 @@ function StatItem({ stat }: { stat: ImpactStat }) {
   const { value, ref } = useCountUp(stat.value || 0);
   return (
     <div ref={ref} className="text-center">
-      <p className="text-4xl font-bold text-white sm:text-5xl">
+      <p className="text-impact font-display font-bold text-white">
         {stat.value > 0 ? `${value}${stat.suffix}` : `+${stat.suffix.replace("+", "")}XX`}
       </p>
       <p className="mt-2 text-sm font-medium text-white/75">{stat.label}</p>

@@ -41,7 +41,7 @@ export default function ArticlePage() {
           <span className="rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold text-primary-700">
             {article.category}
           </span>
-          <h1 className="mt-4 text-3xl sm:text-4xl">{article.title}</h1>
+          <h1 className="text-page-title mt-4">{article.title}</h1>
           <time dateTime={article.date} className="mt-2 block text-sm text-neutral-gray">
             {formattedDate}
           </time>

@@ -32,7 +32,7 @@ export default function About() {
 
       <section className="bg-gradient-to-br from-primary-900 to-secondary-900 py-20 text-white">
         <div className="container-page text-center">
-          <h1 className="mx-auto max-w-3xl text-4xl text-white sm:text-5xl">About GLOFORD Institute of Innovation</h1>
+          <h1 className="text-page-title mx-auto max-w-3xl text-white">About GLOFORD Institute of Innovation</h1>
           <p className="mx-auto mt-5 max-w-2xl text-white/80">
             “Thinking Outside The Box” — catalyzing Northern Uganda and beyond through agro-industrialization, green finance and digital innovation.
           </p>

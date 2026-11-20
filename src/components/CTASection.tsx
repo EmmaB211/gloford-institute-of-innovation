@@ -27,7 +27,7 @@ export default function CTASection({
       )}
     >
       <div className="container-page flex flex-col items-center gap-6 text-center">
-        <h2 className="max-w-2xl text-2xl sm:text-3xl lg:text-4xl text-white">
+        <h2 className="text-promo max-w-2xl text-white">
           {title}
         </h2>
         {description && (

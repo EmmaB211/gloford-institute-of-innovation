@@ -72,7 +72,7 @@ export default function Services() {
       <section className="bg-gradient-to-br from-primary-900 to-secondary-900 py-20 text-white">
         <div className="container-page text-center">
           <p className="text-sm font-semibold uppercase tracking-widest text-accent-300">GLOFORD Financing</p>
-          <h1 className="mx-auto mt-3 max-w-3xl text-4xl text-white sm:text-5xl">Business Loans</h1>
+          <h1 className="text-page-title mx-auto mt-3 max-w-3xl text-white">Business Loans</h1>
           <p className="mx-auto mt-5 max-w-2xl text-white/80">
             Compare the available financing pathways, check the published requirements and start an application.
             All applications are assessed; applying does not guarantee approval.

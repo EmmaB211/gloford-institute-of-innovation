@@ -83,7 +83,7 @@ export default function Agribusiness() {
 
       <section className="bg-gradient-to-br from-primary-900 to-primary-700 py-20 text-white">
         <div className="container-page text-center">
-          <h1 className="mx-auto max-w-3xl text-4xl text-white sm:text-5xl">From Farm to Market, Creating Value Along the Way.</h1>
+          <h1 className="text-page-title mx-auto max-w-3xl text-white">From Farm to Market, Creating Value Along the Way.</h1>
           <p className="mx-auto mt-5 max-w-2xl text-white/80">
             Commercial agribusiness support—from production planning and aggregation to processing, supply and market access.
           </p>
