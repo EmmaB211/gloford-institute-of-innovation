@@ -113,30 +113,6 @@ export const fieldHubs = [
     description: "An operational field base supporting green enterprise and agribusiness in Eastern Uganda.",
     capabilities: ["Green Enterprise", "Agribusiness"],
   },
-  {
-    city: "Arua",
-    name: "West Nile Field Unit",
-    region: "West Nile",
-    status: "Operational",
-    description: "A field unit connecting West Nile businesses to GII's program and market networks.",
-    capabilities: ["Field Operations", "Green Finance"],
-  },
-  {
-    city: "Mbale",
-    name: "Forthcoming Expansion Hub",
-    region: "Eastern Uganda",
-    status: "Planned · 2026",
-    description: "A planned expansion hub intended to extend GII's field network.",
-    capabilities: ["Planned Expansion"],
-  },
-  {
-    city: "Kampala",
-    name: "Capital Liaison Desk",
-    region: "Central Uganda",
-    status: "Liaison Desk",
-    description: "A liaison point for capital-market and investor connections.",
-    capabilities: ["Trade Liaison", "Investor Connections"],
-  },
 ] as const;
 
 export const milestones = [

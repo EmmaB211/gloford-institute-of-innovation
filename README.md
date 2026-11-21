@@ -14,7 +14,7 @@ npm run dev
 The admin console is available at `/admin`. It uses Supabase Auth for admin sign-in and Supabase Postgres with row-level security for published content. Until Supabase is configured, the public website uses its bundled default content and the admin console displays setup instructions.
 
 1. Create a Supabase project.
-2. Open the project's SQL Editor and run [`supabase/schema.sql`](./supabase/schema.sql).
+2. Open the project's SQL Editor and run [`supabase/schema.sql`](./supabase/schema.sql). If the project was already set up, run the updated schema as well to create the form submissions table.
 3. In Supabase Authentication, create the initial admin user. Public sign-up is not exposed by this app.
 4. Promote that account in the SQL Editor, replacing the email:
 
@@ -28,9 +28,9 @@ The admin console is available at `/admin`. It uses Supabase Auth for admin sign
 
 For GitHub Pages deployment, add repository Actions variables named `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. The workflow injects them at build time. Keep admin account provisioning in Supabase; client-side CMS access is restricted by the database policies in the schema.
 
-## Form email delivery
+## Form submissions and email delivery
 
-Contact messages, training registrations, loan enquiries and grain submissions are sent to the configured company inbox by the `send-form-email` Supabase Edge Function. Email delivery uses Resend; the API key stays in Supabase and is never included in the website bundle.
+Contact messages, training registrations, loan enquiries and grain submissions are saved in the Supabase `form_submissions` table by the `send-form-email` Edge Function. The table is private to site admins; signed-in admins can view submissions in the Supabase Table Editor. The function then attempts to send an email notification to the configured company inbox using Resend. The API key and service-role key stay in Supabase and are never included in the website bundle. A submission is considered successful when it is stored; the form reports separately if its email notification could not be sent.
 
 1. Verify a sender domain in Resend and create a Resend API key.
 2. Set the Edge Function secrets in the Supabase project. Use the verified sender address for `EMAIL_FROM`:
@@ -40,6 +40,7 @@ Contact messages, training registrations, loan enquiries and grain submissions a
    ```
 
    The example routes submissions to the company address published on the website; change `EMAIL_TO` if they should go to another company inbox.
+   Supabase Edge Functions provide `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` as server-side environment variables for saving submissions. Do not copy the service-role key into `.env.local` or website build variables.
 3. Deploy the function:
 
    ```sh

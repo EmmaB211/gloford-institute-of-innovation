@@ -47,7 +47,7 @@ interface SubmissionRequest {
   data: Record<string, string>;
 }
 
-function jsonResponse(body: Record<string, string>, status: number): Response {
+function jsonResponse(body: Record<string, unknown>, status: number): Response {
   return new Response(JSON.stringify(body), {
     status,
     headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -98,12 +98,44 @@ Deno.serve(async (request: Request) => {
     return jsonResponse({ error: "Form data is invalid or too large." }, 400);
   }
 
+  const projectUrl = Deno.env.get("SUPABASE_URL");
+  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!projectUrl || !serviceRoleKey) {
+    console.error("Form storage is missing required Supabase server configuration.");
+    return jsonResponse({ error: "Form storage is not configured." }, 500);
+  }
+
+  let storageResponse: Response;
+  try {
+    storageResponse = await fetch(`${projectUrl.replace(/\/$/, "")}/rest/v1/form_submissions`, {
+      method: "POST",
+      headers: {
+        apikey: serviceRoleKey,
+        Authorization: `Bearer ${serviceRoleKey}`,
+        "Content-Type": "application/json",
+        Prefer: "return=minimal",
+      },
+      body: JSON.stringify({
+        form_type: submission.type,
+        data: submission.data,
+      }),
+    });
+  } catch (error) {
+    console.error("Form storage request failed:", error);
+    return jsonResponse({ error: "Could not reach form storage." }, 502);
+  }
+
+  if (!storageResponse.ok) {
+    console.error("Supabase rejected a form submission with status:", storageResponse.status);
+    return jsonResponse({ error: "The form could not be saved." }, 502);
+  }
+
   const apiKey = Deno.env.get("RESEND_API_KEY");
   const recipient = Deno.env.get("EMAIL_TO");
   const sender = Deno.env.get("EMAIL_FROM");
   if (!apiKey || !recipient || !sender) {
     console.error("Email delivery is missing required server configuration.");
-    return jsonResponse({ error: "Form email service is not configured." }, 500);
+    return jsonResponse({ stored: true, emailSent: false }, 200);
   }
 
   const label = formLabels[submission.type];
@@ -135,13 +167,13 @@ Deno.serve(async (request: Request) => {
     });
   } catch (error) {
     console.error("Email provider request failed:", error);
-    return jsonResponse({ error: "Could not reach the email provider." }, 502);
+    return jsonResponse({ stored: true, emailSent: false }, 200);
   }
 
   if (!resendResponse.ok) {
     console.error("Email provider rejected a form email with status:", resendResponse.status);
-    return jsonResponse({ error: "The email provider could not deliver this submission." }, 502);
+    return jsonResponse({ stored: true, emailSent: false }, 200);
   }
 
-  return jsonResponse({ message: "Form submission emailed successfully." }, 200);
+  return jsonResponse({ stored: true, emailSent: true }, 200);
 });

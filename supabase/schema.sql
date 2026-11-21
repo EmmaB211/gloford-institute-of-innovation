@@ -10,8 +10,16 @@ create table if not exists public.site_admins (
   created_at timestamptz not null default now()
 );
 
+create table if not exists public.form_submissions (
+  id uuid primary key default gen_random_uuid(),
+  form_type text not null check (form_type in ('contact', 'training', 'loan', 'grain')),
+  data jsonb not null,
+  created_at timestamptz not null default now()
+);
+
 alter table public.site_content enable row level security;
 alter table public.site_admins enable row level security;
+alter table public.form_submissions enable row level security;
 
 create or replace function public.is_site_admin()
 returns boolean
@@ -54,6 +62,15 @@ drop policy if exists "Admins can read their own role" on public.site_admins;
 create policy "Admins can read their own role"
   on public.site_admins for select to authenticated
   using (user_id = (select auth.uid()));
+
+revoke all on public.form_submissions from anon, authenticated;
+grant select on public.form_submissions to authenticated;
+grant insert on public.form_submissions to service_role;
+
+drop policy if exists "Admins can read form submissions" on public.form_submissions;
+create policy "Admins can read form submissions"
+  on public.form_submissions for select to authenticated
+  using (public.is_site_admin());
 
 -- After creating the first user in Supabase Auth, promote that account using:
 -- insert into public.site_admins (user_id)

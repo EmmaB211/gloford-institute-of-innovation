@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { AlertCircle, CheckCircle2, Loader2, Send } from "lucide-react";
 import FormField from "./FormField";
+import LocationField from "./LocationField";
 import { trainingCategories } from "../data/training";
 import { sendFormSubmission } from "../lib/sendFormSubmission";
 
@@ -39,6 +40,7 @@ export default function TrainingRegistrationForm({ initialInterest = "" }: Train
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>("idle");
   const [submissionError, setSubmissionError] = useState("");
+  const [emailSent, setEmailSent] = useState(false);
 
   const update = <K extends keyof TrainingFormData>(key: K, value: TrainingFormData[K]) => {
     setData((prev) => ({ ...prev, [key]: value }));
@@ -67,7 +69,8 @@ export default function TrainingRegistrationForm({ initialInterest = "" }: Train
     setStatus("submitting");
     setSubmissionError("");
     try {
-      await sendFormSubmission("training", data);
+      const result = await sendFormSubmission("training", data);
+      setEmailSent(result.emailSent);
       setStatus("success");
       setData(initialData);
     } catch (error) {
@@ -82,7 +85,9 @@ export default function TrainingRegistrationForm({ initialInterest = "" }: Train
         <CheckCircle2 className="h-10 w-10 text-primary-700" aria-hidden="true" />
         <h3 className="text-lg text-neutral-charcoal">Registration Received</h3>
         <p className="max-w-md text-sm text-neutral-gray">
-          Thank you. Your registration has been emailed to GLOFORD Institute of Innovation.
+          {emailSent
+            ? "Thank you. Your registration has been saved and emailed to GLOFORD Institute of Innovation."
+            : "Thank you. Your registration has been saved, but the email notification could not be sent."}
         </p>
         <button
           type="button"
@@ -106,7 +111,14 @@ export default function TrainingRegistrationForm({ initialInterest = "" }: Train
         <FormField label="Age" name="age" type="number" min={1} required value={data.age} onChange={(event) => update("age", event.target.value)} error={errors.age} />
       </div>
       <div className="grid gap-5 sm:grid-cols-2">
-        <FormField label="Location" name="location" required value={data.location} onChange={(event) => update("location", event.target.value)} error={errors.location} />
+        <LocationField
+          label="Location"
+          name="location"
+          required
+          value={data.location}
+          onChange={(value) => update("location", value)}
+          error={errors.location}
+        />
         <FormField
           as="select"
           label="Training Interest"

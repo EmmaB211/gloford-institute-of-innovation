@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { AlertCircle, CheckCircle2, Loader2, Send } from "lucide-react";
 import FormField from "./FormField";
+import LocationField from "./LocationField";
 import { sendFormSubmission } from "../lib/sendFormSubmission";
 
 type LoanProduct = "microbusiness" | "wealth-from-waste" | "";
@@ -56,6 +57,7 @@ export default function LoanApplicationForm() {
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>("idle");
   const [submissionError, setSubmissionError] = useState("");
+  const [emailSent, setEmailSent] = useState(false);
 
   const update = <K extends keyof LoanFormData>(key: K, value: LoanFormData[K]) => {
     setData((previous) => ({ ...previous, [key]: value }));
@@ -97,7 +99,8 @@ export default function LoanApplicationForm() {
     setSubmissionError("");
     setErrors({});
     try {
-      await sendFormSubmission("loan", data);
+      const result = await sendFormSubmission("loan", data);
+      setEmailSent(result.emailSent);
       setStatus("success");
       setData(initialData);
     } catch (error) {
@@ -110,9 +113,12 @@ export default function LoanApplicationForm() {
     return (
       <div role="status" className="flex flex-col items-center gap-3 rounded-2xl border border-primary-200 bg-primary-50 p-8 text-center">
         <CheckCircle2 className="h-10 w-10 text-primary-700" aria-hidden="true" />
-        <h3 className="text-lg text-neutral-charcoal">Loan Enquiry Sent</h3>
+        <h3 className="text-lg text-neutral-charcoal">{emailSent ? "Loan Enquiry Sent" : "Loan Enquiry Saved"}</h3>
         <p className="max-w-md text-sm text-neutral-gray">
-          Your enquiry has been emailed to GLOFORD Institute of Innovation. Submission does not guarantee loan approval.
+          {emailSent
+            ? "Your enquiry has been saved and emailed to GLOFORD Institute of Innovation."
+            : "Your enquiry was saved, but the email notification could not be sent."}{" "}
+          Submission does not guarantee loan approval.
         </p>
         <button
           type="button"
@@ -177,7 +183,14 @@ export default function LoanApplicationForm() {
         </FormField>
       )}
       <div className="grid gap-5 sm:grid-cols-2">
-        <FormField label="Business Location" name="location" required value={data.location} onChange={(event) => update("location", event.target.value)} error={errors.location} />
+        <LocationField
+          label="Business Location"
+          name="location"
+          required
+          value={data.location}
+          onChange={(value) => update("location", value)}
+          error={errors.location}
+        />
         <FormField label="Amount Requested (UGX)" name="amountRequired" inputMode="decimal" required value={data.amountRequired} onChange={(event) => update("amountRequired", event.target.value)} error={errors.amountRequired} />
       </div>
       {data.loanProduct === "wealth-from-waste" && (

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, BrainCircuit, HandCoins, Laptop, X } from "lucide-react";
+import { ArrowLeft, BrainCircuit, HandCoins, Laptop, Wheat, X } from "lucide-react";
 import LoanApplicationForm from "./LoanApplicationForm";
 import TrainingRegistrationForm from "./TrainingRegistrationForm";
+import GrainSubmissionForm from "./GrainSubmissionForm";
 
 type TrainingInterest = "AI Training" | "ICT Boot Camp";
-type PopupSelection = TrainingInterest | "loan" | null;
+type PopupSelection = TrainingInterest | "loan" | "grain" | null;
 
 interface VisitorActionPopupProps {
   onClose: () => void;
@@ -52,9 +53,11 @@ export default function VisitorActionPopup({ onClose }: VisitorActionPopupProps)
 
   const title = selection === "loan"
     ? "Apply for a Loan"
-    : selection
-      ? `Register for ${selection}`
-      : "What would you like to do?";
+    : selection === "grain"
+      ? "Submit Grain Quantity"
+      : selection
+        ? `Register for ${selection}`
+        : "What would you like to do?";
 
   return (
     <div
@@ -102,7 +105,7 @@ export default function VisitorActionPopup({ onClose }: VisitorActionPopupProps)
           {selection === null ? (
             <div>
               <p className="mb-5 text-sm text-neutral-gray">
-                Choose an option to register your training interest or start a loan application.
+                Choose an option to register for training, apply for a loan, or submit available grain.
               </p>
               <div className="space-y-3">
                 <button type="button" className={actionClass} onClick={() => setSelection("AI Training")}>
@@ -126,6 +129,13 @@ export default function VisitorActionPopup({ onClose }: VisitorActionPopupProps)
                     <span className="mt-1 block text-sm text-neutral-gray">Tell us about your business and financing needs.</span>
                   </span>
                 </button>
+                <button type="button" className={actionClass} onClick={() => setSelection("grain")}>
+                  <Wheat className="h-7 w-7 shrink-0 text-primary-700" aria-hidden="true" />
+                  <span>
+                    <span className="block font-semibold text-neutral-charcoal">Submit Grain Quantity</span>
+                    <span className="mt-1 block text-sm text-neutral-gray">Share your grain type, available amount, and location.</span>
+                  </span>
+                </button>
               </div>
               <p className="mt-5 text-center text-xs text-neutral-gray">
                 You can close this window to continue browsing.
@@ -138,6 +148,8 @@ export default function VisitorActionPopup({ onClose }: VisitorActionPopupProps)
               </p>
               <LoanApplicationForm />
             </>
+          ) : selection === "grain" ? (
+            <GrainSubmissionForm />
           ) : (
             <>
               <p className="mb-5 text-sm text-neutral-gray">

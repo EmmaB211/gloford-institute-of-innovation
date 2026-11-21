@@ -148,8 +148,8 @@ export default function StrategicSections() {
         <div className="container-page">
           <SectionHeader
             eyebrow="Field Innovation Network"
-            title="Four active hubs. One expanding national grid."
-            description="The field network is headquartered in Lira City, with operational innovation centers in Gulu, Soroti and Arua (West Nile), a capital liaison desk in Kampala and a forthcoming expansion hub in Mbale."
+            title="Three active hubs across Uganda."
+            description="The field network is headquartered in Lira City, with operational innovation centers in Gulu City and Soroti City."
           />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {fieldHubs.map((hub, index) => (

@@ -27,6 +27,7 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<Partial<ContactFormData>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [submissionError, setSubmissionError] = useState("");
+  const [emailSent, setEmailSent] = useState(false);
 
   const validate = (): boolean => {
     const nextErrors: Partial<ContactFormData> = {};
@@ -46,7 +47,8 @@ export default function ContactForm() {
     setStatus("submitting");
     setSubmissionError("");
     try {
-      await sendFormSubmission("contact", data);
+      const result = await sendFormSubmission("contact", data);
+      setEmailSent(result.emailSent);
       setStatus("success");
       setData(initialData);
     } catch (error) {
@@ -59,9 +61,11 @@ export default function ContactForm() {
     return (
       <div className="flex flex-col items-center gap-3 rounded-2xl border border-primary-200 bg-primary-50 p-10 text-center">
         <CheckCircle2 className="h-10 w-10 text-primary-700" />
-        <h3 className="text-lg text-neutral-charcoal">Message Sent</h3>
+        <h3 className="text-lg text-neutral-charcoal">{emailSent ? "Message Sent" : "Message Saved"}</h3>
         <p className="text-sm text-neutral-gray">
-          Thank you for reaching out. Our team will get back to you shortly.
+          {emailSent
+            ? "Thank you for reaching out. Our team will get back to you shortly."
+            : "Your message was saved, but the email notification could not be sent. Our team may take longer to respond."}
         </p>
         <button
           type="button"
